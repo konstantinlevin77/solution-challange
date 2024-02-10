@@ -46,3 +46,21 @@ func (fr *FirestoreRepository) GetAllUsers() ([]models.User, error) {
 	return userList, nil
 
 }
+
+func (fr *FirestoreRepository) GetUserByUsername(username string) (models.User, error) {
+
+	var u models.User
+	iter := fr.Client.Collection("users").Where("username", "==", username).Documents(context.Background())
+	for {
+		doc, err := iter.Next()
+		if err == iterator.Done {
+			break
+		}
+		if err != nil {
+			return u, err
+		}
+		_ = doc.DataTo(&u)
+	}
+	return u, nil
+
+}
