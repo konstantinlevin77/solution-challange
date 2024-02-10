@@ -1,5 +1,7 @@
 package repository
 
+import "github.com/konstantinlevin77/solution-challenge/api/models"
+
 type Repository interface {
-	TestFunction()
+	AddUser(u models.User) error
 }
