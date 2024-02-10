@@ -12,3 +12,21 @@ type User struct {
 	Bio                string `json:"bio"`
 	ProfilePicturePath string `json:"profile_picture_path"`
 }
+
+type Article struct {
+	Id       int    `json:"id"`
+	Title    string `json:"title"`
+	BodyText string `json:"body_text"`
+	NumLikes int    `json:"num_likes"`
+}
+
+type MiniQuiz struct {
+	Id            int    `json:"id"`
+	Title         string `json:"title"`
+	Question      string `json:"question"`
+	ChoiceA       string `json:"choice_a"`
+	ChoiceB       string `json:"choice_b"`
+	ChoiceC       string `json:"choice_c"`
+	CorrectChoice string `json:"correct_choice"`
+	NumLikes      int    `json:"num_likes"`
+}

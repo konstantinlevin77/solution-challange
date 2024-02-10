@@ -17,6 +17,12 @@ func main() {
 	router.Get("/users/getById/{id}", handlers.GetUserByIdHandler)
 	router.Get("/users/getByUsername/{username}", handlers.GetUserByUsernameHandler)
 
+	router.Get("/misc/articles/getAll", handlers.GetAllArticlesHandler)
+	router.Get("/misc/articles/getById/{id}", handlers.GetArticleByIdHandler)
+
+	router.Get("/misc/quizzes/getAll", handlers.GetAllQuizzesHandler)
+	router.Get("/misc/quizzes/getById/{id}", handlers.GetQuizByIdHandler)
+
 	server := &http.Server{Handler: router, Addr: PORT}
 
 	log.Println("Listening and serving on", PORT)
