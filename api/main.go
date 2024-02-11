@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/go-chi/chi/v5"
 	"github.com/konstantinlevin77/solution-challenge/api/config"
-	"github.com/konstantinlevin77/solution-challenge/api/repository"
+	"github.com/konstantinlevin77/solution-challenge/api/repository/firestoreRepo"
 	"log"
 	"net/http"
 )
@@ -12,7 +12,7 @@ const PORT = ":8080"
 
 func main() {
 
-	repo, err := repository.NewFirestoreRepository()
+	repo, err := firestoreRepo.NewFirestoreRepository()
 	if err != nil {
 		log.Fatalln("Error while initializing firestore repo", err)
 	}
