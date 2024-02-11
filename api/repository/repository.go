@@ -6,4 +6,5 @@ type Repository interface {
 	AddUser(u models.User) error
 	GetAllUsers() ([]models.User, error)
 	GetUserByUsername(username string) (models.User, error)
+	DeleteUserByUsername(username string) error
 }

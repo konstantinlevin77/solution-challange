@@ -64,3 +64,23 @@ func (fr *FirestoreRepository) GetUserByUsername(username string) (models.User, 
 	return u, nil
 
 }
+
+func (fr *FirestoreRepository) DeleteUserByUsername(username string) error {
+
+	iter := fr.Client.Collection("users").Where("username", "==", username).Documents(context.Background())
+	for {
+		doc, err := iter.Next()
+		if err == iterator.Done {
+			break
+		}
+		if err != nil {
+			return err
+		}
+		_, err = doc.Ref.Delete(context.Background())
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}

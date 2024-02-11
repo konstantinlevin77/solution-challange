@@ -18,6 +18,7 @@ func main() {
 	}
 
 	config.NewApp(repo)
+
 	mux := chi.NewRouter()
 
 	server := &http.Server{Handler: mux,
