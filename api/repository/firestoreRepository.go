@@ -6,6 +6,7 @@ import (
 	"github.com/konstantinlevin77/solution-challenge/api/driver"
 	"github.com/konstantinlevin77/solution-challenge/api/models"
 	"google.golang.org/api/iterator"
+	"time"
 )
 
 func NewFirestoreRepository() (*FirestoreRepository, error) {
@@ -77,10 +78,40 @@ func (fr *FirestoreRepository) DeleteUserByUsername(username string) error {
 			return err
 		}
 		_, err = doc.Ref.Delete(context.Background())
+		return err
+	}
+
+	return nil
+}
+
+func (fr *FirestoreRepository) UpdateUserByUsername(username string, updatedUser models.User) error {
+
+	iter := fr.Client.Collection("users").Where("username", "==", username).Documents(context.Background())
+	for {
+		doc, err := iter.Next()
+		if err == iterator.Done {
+			break
+		}
 		if err != nil {
 			return err
 		}
-	}
+		_, err = doc.Ref.Update(context.Background(), []firestore.Update{
+			{Path: "username", Value: updatedUser.Username},
+			{Path: "email", Value: updatedUser.Email},
+			{Path: "password", Value: updatedUser.Password},
+			{Path: "first_name", Value: updatedUser.FirstName},
+			{Path: "last_name", Value: updatedUser.LastName},
+			{Path: "age", Value: updatedUser.Age},
+			{Path: "gender", Value: updatedUser.Gender},
+			{Path: "bio", Value: updatedUser.Bio},
+			{Path: "profile_picture_path", Value: updatedUser.ProfilePicturePath},
+			{Path: "insta_profile_link", Value: updatedUser.InstaProfileLink},
+			{Path: "created_at", Value: updatedUser.CreatedAt},
+			{Path: "updated_at", Value: time.Now()},
+		})
 
+		return err
+
+	}
 	return nil
 }
