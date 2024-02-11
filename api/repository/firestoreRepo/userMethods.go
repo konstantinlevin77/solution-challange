@@ -3,6 +3,7 @@ package firestoreRepo
 import (
 	"cloud.google.com/go/firestore"
 	"context"
+	"errors"
 	"github.com/konstantinlevin77/solution-challenge/api/models"
 	"google.golang.org/api/iterator"
 	"time"
@@ -42,14 +43,15 @@ func (fr *FirestoreRepository) GetUserByUsername(username string) (models.User, 
 	for {
 		doc, err := iter.Next()
 		if err == iterator.Done {
-			break
+			// This literally means there were no values
+			return u, errors.New("user not found")
 		}
 		if err != nil {
 			return u, err
 		}
 		_ = doc.DataTo(&u)
+		return u, nil
 	}
-	return u, nil
 
 }
 
@@ -59,7 +61,7 @@ func (fr *FirestoreRepository) DeleteUserByUsername(username string) error {
 	for {
 		doc, err := iter.Next()
 		if err == iterator.Done {
-			break
+			return errors.New("user not found")
 		}
 		if err != nil {
 			return err
@@ -67,8 +69,6 @@ func (fr *FirestoreRepository) DeleteUserByUsername(username string) error {
 		_, err = doc.Ref.Delete(context.Background())
 		return err
 	}
-
-	return nil
 }
 
 func (fr *FirestoreRepository) UpdateUserByUsername(username string, updatedUser models.User) error {
@@ -77,7 +77,7 @@ func (fr *FirestoreRepository) UpdateUserByUsername(username string, updatedUser
 	for {
 		doc, err := iter.Next()
 		if err == iterator.Done {
-			break
+			return errors.New("user not found")
 		}
 		if err != nil {
 			return err
@@ -100,5 +100,5 @@ func (fr *FirestoreRepository) UpdateUserByUsername(username string, updatedUser
 		return err
 
 	}
-	return nil
+
 }

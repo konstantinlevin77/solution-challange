@@ -3,6 +3,7 @@ package firestoreRepo
 import (
 	"cloud.google.com/go/firestore"
 	"context"
+	"errors"
 	"github.com/konstantinlevin77/solution-challenge/api/models"
 	"google.golang.org/api/iterator"
 	"time"
@@ -48,16 +49,17 @@ func (fr *FirestoreRepository) GetBusinessAccountByUsername(username string) (mo
 	for {
 		doc, err := iter.Next()
 		if err == iterator.Done {
-			break
+			return b, errors.New("user not found")
 		}
 		if err != nil {
 			return b, err
 		}
 
 		_ = doc.DataTo(&b)
+		return b, nil
 
 	}
-	return b, nil
+
 }
 
 func (fr *FirestoreRepository) DeleteBusinessAccountByUsername(username string) error {
@@ -68,7 +70,7 @@ func (fr *FirestoreRepository) DeleteBusinessAccountByUsername(username string) 
 	for {
 		doc, err := iter.Next()
 		if err == iterator.Done {
-			break
+			return errors.New("user not found")
 		}
 		if err != nil {
 			return err
@@ -76,7 +78,7 @@ func (fr *FirestoreRepository) DeleteBusinessAccountByUsername(username string) 
 		_, err = doc.Ref.Delete(ctx)
 		return err
 	}
-	return nil
+
 }
 
 func (fr *FirestoreRepository) UpdateBusinessAccountByUsername(username string, updatedBusinessAccount models.BusinessAccount) error {
@@ -87,7 +89,7 @@ func (fr *FirestoreRepository) UpdateBusinessAccountByUsername(username string, 
 	for {
 		doc, err := iter.Next()
 		if err == iterator.Done {
-			break
+			return errors.New("user not found")
 		}
 		if err != nil {
 			return err
@@ -107,6 +109,5 @@ func (fr *FirestoreRepository) UpdateBusinessAccountByUsername(username string, 
 		})
 		return err
 	}
-	return nil
 
 }
