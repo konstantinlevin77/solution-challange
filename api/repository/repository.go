@@ -14,4 +14,10 @@ type Repository interface {
 	GetBusinessAccountById(id string) (models.BusinessAccount, error)
 	DeleteBusinessAccountById(id string) error
 	UpdateBusinessAccountById(id string, updatedBusinessAccount models.BusinessAccount) error
+
+	AddMenu(m models.Menu) error
+	GetAllMenus() ([]models.Menu, error)
+	GetMenuById(id string) (models.Menu, error)
+	GetAllMenusByBusinessId(id string) ([]models.Menu, error)
+	GetGlutenFreeMenusByBusinessId(id string) ([]models.Menu, error)
 }
