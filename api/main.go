@@ -22,14 +22,14 @@ func main() {
 
 	mux := chi.NewRouter()
 
-	mux.Get("/users/getByUsername/{username}", handlers.GetUserByUsernameHandler)
-	mux.Get("/businessAccounts/getByUsername/{username}", handlers.GetBusinessAccountByUsernameHandler)
+	mux.Get("/users/getById/{id}", handlers.GetUserByIdHandler)
+	mux.Get("/businessAccounts/getById/{id}", handlers.GetBusinessAccountByIdHandler)
 
-	mux.Delete("/users/deleteByUsername/{username}", handlers.DeleteUserByUsernameHandler)
-	mux.Delete("/businessAccounts/deleteByUsername/{username}", handlers.DeleteBusinessAccountByUsernameHandler)
+	mux.Delete("/users/deleteById/{id}", handlers.DeleteUserByIdHandler)
+	mux.Delete("/businessAccounts/deleteById/{id}", handlers.DeleteBusinessAccountByIdHandler)
 
-	mux.Put("/users/updateByUsername/{username}", handlers.UpdateUserByUsernameHandler)
-	mux.Put("/businessAccounts/updateByUsername/{username}", handlers.UpdateBusinessAccountByUsernameHandler)
+	mux.Put("/users/updateById/{id}", handlers.UpdateUserByIdHandler)
+	mux.Put("/businessAccounts/updateById/{id}", handlers.UpdateBusinessAccountByIdHandler)
 
 	server := &http.Server{Handler: mux,
 		Addr: PORT}

@@ -3,7 +3,6 @@ package firestoreRepo
 import (
 	"cloud.google.com/go/firestore"
 	"context"
-	"errors"
 	"github.com/konstantinlevin77/solution-challenge/api/models"
 	"google.golang.org/api/iterator"
 	"time"
@@ -11,7 +10,17 @@ import (
 
 func (fr *FirestoreRepository) AddUser(u models.User) error {
 
-	_, _, err := fr.Client.Collection("users").Add(context.Background(), u)
+	ctx := context.Background()
+
+	docRef, _, err := fr.Client.Collection("users").Add(ctx, u)
+	if err != nil {
+		return err
+	}
+	autoGenID := docRef.ID
+
+	_, err = fr.Client.Collection("users").Doc(autoGenID).Set(ctx, map[string]interface{}{
+		"id": autoGenID,
+	}, firestore.MergeAll)
 	return err
 }
 
@@ -36,69 +45,40 @@ func (fr *FirestoreRepository) GetAllUsers() ([]models.User, error) {
 
 }
 
-func (fr *FirestoreRepository) GetUserByUsername(username string) (models.User, error) {
+func (fr *FirestoreRepository) GetUserById(id string) (models.User, error) {
 
 	var u models.User
-	iter := fr.Client.Collection("users").Where("username", "==", username).Documents(context.Background())
-	for {
-		doc, err := iter.Next()
-		if err == iterator.Done {
-			// This literally means there were no values
-			return u, errors.New("user not found")
-		}
-		if err != nil {
-			return u, err
-		}
-		_ = doc.DataTo(&u)
-		return u, nil
+	docsnap, err := fr.Client.Collection("users").Doc(id).Get(context.Background())
+	if err != nil {
+		return u, err
 	}
+	err = docsnap.DataTo(&u)
+	return u, err
 
 }
 
-func (fr *FirestoreRepository) DeleteUserByUsername(username string) error {
+func (fr *FirestoreRepository) DeleteUserById(id string) error {
 
-	iter := fr.Client.Collection("users").Where("username", "==", username).Documents(context.Background())
-	for {
-		doc, err := iter.Next()
-		if err == iterator.Done {
-			return errors.New("user not found")
-		}
-		if err != nil {
-			return err
-		}
-		_, err = doc.Ref.Delete(context.Background())
-		return err
-	}
+	_, err := fr.Client.Collection("users").Doc(id).Delete(context.Background())
+	return err
+
 }
 
-func (fr *FirestoreRepository) UpdateUserByUsername(username string, updatedUser models.User) error {
+func (fr *FirestoreRepository) UpdateUserById(id string, updatedUser models.User) error {
 
-	iter := fr.Client.Collection("users").Where("username", "==", username).Documents(context.Background())
-	for {
-		doc, err := iter.Next()
-		if err == iterator.Done {
-			return errors.New("user not found")
-		}
-		if err != nil {
-			return err
-		}
-		_, err = doc.Ref.Update(context.Background(), []firestore.Update{
-			{Path: "username", Value: updatedUser.Username},
-			{Path: "email", Value: updatedUser.Email},
-			{Path: "password", Value: updatedUser.Password},
-			{Path: "first_name", Value: updatedUser.FirstName},
-			{Path: "last_name", Value: updatedUser.LastName},
-			{Path: "age", Value: updatedUser.Age},
-			{Path: "gender", Value: updatedUser.Gender},
-			{Path: "bio", Value: updatedUser.Bio},
-			{Path: "profile_picture_path", Value: updatedUser.ProfilePicturePath},
-			{Path: "insta_profile_link", Value: updatedUser.InstaProfileLink},
-			{Path: "created_at", Value: updatedUser.CreatedAt},
-			{Path: "updated_at", Value: time.Now()},
-		})
-
-		return err
-
-	}
-
+	_, err := fr.Client.Collection("users").Doc(id).Update(context.Background(), []firestore.Update{
+		{Path: "username", Value: updatedUser.Username},
+		{Path: "email", Value: updatedUser.Email},
+		{Path: "password", Value: updatedUser.Password},
+		{Path: "first_name", Value: updatedUser.FirstName},
+		{Path: "last_name", Value: updatedUser.LastName},
+		{Path: "age", Value: updatedUser.Age},
+		{Path: "gender", Value: updatedUser.Gender},
+		{Path: "bio", Value: updatedUser.Bio},
+		{Path: "profile_picture_path", Value: updatedUser.ProfilePicturePath},
+		{Path: "insta_profile_link", Value: updatedUser.InstaProfileLink},
+		{Path: "created_at", Value: updatedUser.CreatedAt},
+		{Path: "updated_at", Value: time.Now()},
+	})
+	return err
 }

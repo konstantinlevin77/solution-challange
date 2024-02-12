@@ -3,7 +3,6 @@ package firestoreRepo
 import (
 	"cloud.google.com/go/firestore"
 	"context"
-	"errors"
 	"github.com/konstantinlevin77/solution-challenge/api/models"
 	"google.golang.org/api/iterator"
 	"time"
@@ -12,7 +11,16 @@ import (
 func (fr *FirestoreRepository) AddBusinessAccount(b models.BusinessAccount) error {
 
 	ctx := context.Background()
-	_, _, err := fr.Client.Collection("business_accounts").Add(ctx, b)
+	docRef, _, err := fr.Client.Collection("business_accounts").Add(ctx, b)
+	if err != nil {
+		return err
+	}
+
+	autoGenID := docRef.ID
+	_, err = fr.Client.Collection("business_accounts").Doc(autoGenID).Set(ctx, map[string]interface{}{
+		"id": autoGenID,
+	}, firestore.MergeAll)
+
 	return err
 }
 
@@ -39,75 +47,45 @@ func (fr *FirestoreRepository) GetAllBusinessAccounts() ([]models.BusinessAccoun
 
 }
 
-func (fr *FirestoreRepository) GetBusinessAccountByUsername(username string) (models.BusinessAccount, error) {
+func (fr *FirestoreRepository) GetBusinessAccountById(id string) (models.BusinessAccount, error) {
 
-	ctx := context.Background()
-
-	iter := fr.Client.Collection("business_accounts").Where("username", "==", username).Documents(ctx)
-
-	var b models.BusinessAccount
-	for {
-		doc, err := iter.Next()
-		if err == iterator.Done {
-			return b, errors.New("user not found")
-		}
-		if err != nil {
-			return b, err
-		}
-
-		_ = doc.DataTo(&b)
-		return b, nil
-
+	var ba models.BusinessAccount
+	docsnap, err := fr.Client.Collection("business_accounts").Doc(id).Get(context.Background())
+	if err != nil {
+		return ba, err
 	}
+	err = docsnap.DataTo(&ba)
+	return ba, err
 
 }
 
-func (fr *FirestoreRepository) DeleteBusinessAccountByUsername(username string) error {
+func (fr *FirestoreRepository) DeleteBusinessAccountById(id string) error {
 
 	ctx := context.Background()
 
-	iter := fr.Client.Collection("business_accounts").Where("username", "==", username).Documents(ctx)
-	for {
-		doc, err := iter.Next()
-		if err == iterator.Done {
-			return errors.New("user not found")
-		}
-		if err != nil {
-			return err
-		}
-		_, err = doc.Ref.Delete(ctx)
-		return err
-	}
+	_, err := fr.Client.Collection("business_accounts").Doc(id).Delete(ctx)
+	return err
 
 }
 
-func (fr *FirestoreRepository) UpdateBusinessAccountByUsername(username string, updatedBusinessAccount models.BusinessAccount) error {
+func (fr *FirestoreRepository) UpdateBusinessAccountByUsername(id string, updatedBusinessAccount models.BusinessAccount) error {
 
 	ctx := context.Background()
 
-	iter := fr.Client.Collection("business_accounts").Where("username", "==", username).Documents(ctx)
-	for {
-		doc, err := iter.Next()
-		if err == iterator.Done {
-			return errors.New("user not found")
-		}
-		if err != nil {
-			return err
-		}
-		_, err = doc.Ref.Update(ctx, []firestore.Update{
-			{Path: "username", Value: updatedBusinessAccount.Username},
-			{Path: "email", Value: updatedBusinessAccount.Email},
-			{Path: "password", Value: updatedBusinessAccount.Password},
-			{Path: "name", Value: updatedBusinessAccount.Name},
-			{Path: "bio", Value: updatedBusinessAccount.Bio},
-			{Path: "profile_picture_path", Value: updatedBusinessAccount.ProfilePicturePath},
-			{Path: "insta_profile_link", Value: updatedBusinessAccount.InstaProfileLink},
-			{Path: "latitude", Value: updatedBusinessAccount.Latitude},
-			{Path: "longitude", Value: updatedBusinessAccount.Longitude},
-			{Path: "created_at", Value: updatedBusinessAccount.CreatedAt},
-			{Path: "updated_at", Value: time.Now()},
-		})
-		return err
-	}
+	_, err := fr.Client.Collection("business_accounts").Doc(id).Update(ctx, []firestore.Update{
+		{Path: "username", Value: updatedBusinessAccount.Username},
+		{Path: "email", Value: updatedBusinessAccount.Email},
+		{Path: "password", Value: updatedBusinessAccount.Password},
+		{Path: "name", Value: updatedBusinessAccount.Name},
+		{Path: "bio", Value: updatedBusinessAccount.Bio},
+		{Path: "profile_picture_path", Value: updatedBusinessAccount.ProfilePicturePath},
+		{Path: "insta_profile_link", Value: updatedBusinessAccount.InstaProfileLink},
+		{Path: "latitude", Value: updatedBusinessAccount.Latitude},
+		{Path: "longitude", Value: updatedBusinessAccount.Longitude},
+		{Path: "created_at", Value: updatedBusinessAccount.CreatedAt},
+		{Path: "updated_at", Value: time.Now()},
+	})
+
+	return err
 
 }

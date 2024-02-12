@@ -9,12 +9,12 @@ import (
 	"net/http"
 )
 
-func GetUserByUsernameHandler(w http.ResponseWriter, r *http.Request) {
+func GetUserByIdHandler(w http.ResponseWriter, r *http.Request) {
 
-	username := chi.URLParam(r, "username")
+	id := chi.URLParam(r, "id")
 	w.Header().Set("Content-Type", "application/json")
 
-	u, err := config.App.Repository.GetUserByUsername(username)
+	u, err := config.App.Repository.GetUserById(id)
 	if err != nil {
 		w.WriteHeader(http.StatusNotFound)
 		_, _ = w.Write(helpers.NewResultJSON(http.StatusNotFound, err.Error()))
@@ -32,12 +32,12 @@ func GetUserByUsernameHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func DeleteUserByUsernameHandler(w http.ResponseWriter, r *http.Request) {
+func DeleteUserByIdHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
-	username := chi.URLParam(r, "username")
+	id := chi.URLParam(r, "id")
 
-	err := config.App.Repository.DeleteUserByUsername(username)
+	err := config.App.Repository.DeleteUserById(id)
 	if err != nil {
 		_, _ = w.Write(helpers.NewResultJSON(http.StatusBadRequest, err.Error()))
 		return
@@ -46,10 +46,10 @@ func DeleteUserByUsernameHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func UpdateUserByUsernameHandler(w http.ResponseWriter, r *http.Request) {
+func UpdateUserByIdHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
-	username := chi.URLParam(r, "username")
+	id := chi.URLParam(r, "id")
 
 	var u models.User
 	err := json.NewDecoder(r.Body).Decode(&u)
@@ -59,7 +59,7 @@ func UpdateUserByUsernameHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = config.App.Repository.UpdateUserByUsername(username, u)
+	err = config.App.Repository.UpdateUserById(id, u)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		_, _ = w.Write(helpers.NewResultJSON(http.StatusBadRequest, err.Error()))

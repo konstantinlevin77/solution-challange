@@ -9,11 +9,11 @@ import (
 	"net/http"
 )
 
-func GetBusinessAccountByUsernameHandler(w http.ResponseWriter, r *http.Request) {
+func GetBusinessAccountByIdHandler(w http.ResponseWriter, r *http.Request) {
 
-	username := chi.URLParam(r, "username")
+	id := chi.URLParam(r, "id")
 
-	ba, err := config.App.Repository.GetBusinessAccountByUsername(username)
+	ba, err := config.App.Repository.GetBusinessAccountById(id)
 	if err != nil {
 		w.WriteHeader(http.StatusNotFound)
 		_, _ = w.Write(helpers.NewResultJSON(http.StatusNotFound, err.Error()))
@@ -32,12 +32,12 @@ func GetBusinessAccountByUsernameHandler(w http.ResponseWriter, r *http.Request)
 
 }
 
-func DeleteBusinessAccountByUsernameHandler(w http.ResponseWriter, r *http.Request) {
+func DeleteBusinessAccountByIdHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
-	username := chi.URLParam(r, "username")
+	id := chi.URLParam(r, "id")
 
-	err := config.App.Repository.DeleteBusinessAccountByUsername(username)
+	err := config.App.Repository.DeleteBusinessAccountById(id)
 	if err != nil {
 		_, _ = w.Write(helpers.NewResultJSON(http.StatusBadRequest, err.Error()))
 		return
@@ -46,10 +46,10 @@ func DeleteBusinessAccountByUsernameHandler(w http.ResponseWriter, r *http.Reque
 
 }
 
-func UpdateBusinessAccountByUsernameHandler(w http.ResponseWriter, r *http.Request) {
+func UpdateBusinessAccountByIdHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
-	username := chi.URLParam(r, "username")
+	id := chi.URLParam(r, "id")
 
 	var ba models.BusinessAccount
 	err := json.NewDecoder(r.Body).Decode(&ba)
@@ -59,7 +59,7 @@ func UpdateBusinessAccountByUsernameHandler(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	err = config.App.Repository.UpdateBusinessAccountByUsername(username, ba)
+	err = config.App.Repository.UpdateBusinessAccountByUsername(id, ba)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		_, _ = w.Write(helpers.NewResultJSON(http.StatusBadRequest, err.Error()))
