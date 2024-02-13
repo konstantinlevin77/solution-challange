@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/go-chi/chi/v5"
+	"github.com/joho/godotenv"
 	"github.com/konstantinlevin77/solution-challenge/api/config"
 	"github.com/konstantinlevin77/solution-challenge/api/handlers"
 	"github.com/konstantinlevin77/solution-challenge/api/repository/firestoreRepo"
@@ -19,6 +20,10 @@ func main() {
 	}
 
 	config.NewApp(repo)
+	err = godotenv.Load()
+	if err != nil {
+		log.Fatalln(err.Error())
+	}
 
 	mux := chi.NewRouter()
 
