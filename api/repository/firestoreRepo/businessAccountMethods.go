@@ -68,7 +68,7 @@ func (fr *FirestoreRepository) DeleteBusinessAccountById(id string) error {
 
 }
 
-func (fr *FirestoreRepository) UpdateBusinessAccountByUsername(id string, updatedBusinessAccount models.BusinessAccount) error {
+func (fr *FirestoreRepository) UpdateBusinessAccountById(id string, updatedBusinessAccount models.BusinessAccount) error {
 
 	ctx := context.Background()
 

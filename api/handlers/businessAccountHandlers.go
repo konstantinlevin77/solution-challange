@@ -59,7 +59,7 @@ func UpdateBusinessAccountByIdHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = config.App.Repository.UpdateBusinessAccountByUsername(id, ba)
+	err = config.App.Repository.UpdateBusinessAccountById(id, ba)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		_, _ = w.Write(helpers.NewResultJSON(http.StatusBadRequest, err.Error()))

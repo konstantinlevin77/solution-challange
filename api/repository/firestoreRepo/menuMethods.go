@@ -5,6 +5,7 @@ import (
 	"context"
 	"github.com/konstantinlevin77/solution-challenge/api/models"
 	"google.golang.org/api/iterator"
+	"time"
 )
 
 func (fr *FirestoreRepository) AddMenu(m models.Menu) error {
@@ -105,5 +106,32 @@ func (fr *FirestoreRepository) GetGlutenFreeMenusByBusinessId(id string) ([]mode
 
 	}
 	return menus, nil
+
+}
+
+func (fr *FirestoreRepository) UpdateMenuById(id string, updatedMenu models.Menu) error {
+
+	ctx := context.Background()
+	_, err := fr.Client.Collection("menus").Doc(id).Update(ctx, []firestore.Update{
+		{Path: "name", Value: updatedMenu.Name},
+		{Path: "business_id", Value: updatedMenu.BusinessId},
+		{Path: "ingredients", Value: updatedMenu.Ingredients},
+		{Path: "price", Value: updatedMenu.Price},
+		{Path: "example_image_path", Value: updatedMenu.ExampleImagePath},
+		{Path: "avg_stars", Value: updatedMenu.AvgStars},
+		{Path: "num_reviews", Value: updatedMenu.NumReviews},
+		{Path: "is_gluten_free", Value: updatedMenu.IsGlutenFree},
+		{Path: "created_at", Value: updatedMenu.CreatedAt},
+		{Path: "updated_at", Value: time.Now()},
+	})
+
+	return err
+}
+
+func (fr *FirestoreRepository) DeleteMenuById(id string) error {
+
+	ctx := context.Background()
+	_, err := fr.Client.Collection("menus").Doc(id).Delete(ctx)
+	return err
 
 }

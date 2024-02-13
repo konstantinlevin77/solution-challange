@@ -48,14 +48,21 @@ func main() {
 
 	mux := chi.NewRouter()
 
+	mux.Post("/menus/add", handlers.AddMenuHandler)
+
 	mux.Get("/users/getById/{id}", handlers.GetUserByIdHandler)
 	mux.Get("/businessAccounts/getById/{id}", handlers.GetBusinessAccountByIdHandler)
+	mux.Get("/menus/getById/{id}", handlers.GetMenuByIdHandler)
+	mux.Get("/menus/getAllByBusinessId/{id}", handlers.GetAllMenusByBusinessIdHandler)
+	mux.Get("/menus/getGlutenFreeByBusinessId/{id}", handlers.GetGlutenFreeMenusByBusinessIdHandler)
 
 	mux.Delete("/users/deleteById/{id}", handlers.DeleteUserByIdHandler)
 	mux.Delete("/businessAccounts/deleteById/{id}", handlers.DeleteBusinessAccountByIdHandler)
+	mux.Delete("/menus/deleteById/{id}", handlers.DeleteMenuByIdHandler)
 
 	mux.Put("/users/updateById/{id}", handlers.UpdateUserByIdHandler)
 	mux.Put("/businessAccounts/updateById/{id}", handlers.UpdateBusinessAccountByIdHandler)
+	mux.Put("/menus/updateById/{id}", handlers.UpdateMenuByIdHandler)
 
 	server := &http.Server{Handler: mux,
 		Addr: PORT}

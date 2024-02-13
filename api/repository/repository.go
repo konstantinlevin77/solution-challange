@@ -20,4 +20,6 @@ type Repository interface {
 	GetMenuById(id string) (models.Menu, error)
 	GetAllMenusByBusinessId(id string) ([]models.Menu, error)
 	GetGlutenFreeMenusByBusinessId(id string) ([]models.Menu, error)
+	UpdateMenuById(id string) error
+	DeleteMenuById(id string) error
 }
