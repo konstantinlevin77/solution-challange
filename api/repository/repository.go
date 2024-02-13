@@ -20,6 +20,15 @@ type Repository interface {
 	GetMenuById(id string) (models.Menu, error)
 	GetAllMenusByBusinessId(id string) ([]models.Menu, error)
 	GetGlutenFreeMenusByBusinessId(id string) ([]models.Menu, error)
-	UpdateMenuById(id string) error
+	UpdateMenuById(id string, updatedMenu models.Menu) error
 	DeleteMenuById(id string) error
+
+	AddUserReview(ur models.UserReview) error
+	GetUserReviewById(id string) (models.UserReview, error)
+	GetAllUserReviews() ([]models.UserReview, error)
+	GetUserReviewsByUserId(id string) ([]models.UserReview, error)
+	GetUserReviewsByMenuId(id string) ([]models.UserReview, error)
+	GetUserReviewsByBusinessId(id string) ([]models.UserReview, error)
+	UpdateUserReviewById(id string, updatedUserReview models.UserReview) error
+	DeleteUserReviewById(id string) error
 }
