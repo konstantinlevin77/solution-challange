@@ -11,12 +11,15 @@ import (
 var secretKey = []byte(os.Getenv("JWT_SECRET_KEY"))
 
 // GenerateToken generates a JWT token using EdDSA signing method.
-func GenerateToken(id string) (string, error) {
+func GenerateToken(userType string, id string) (string, error) {
 
 	token := jwt.New(jwt.SigningMethodHS256)
 
 	claims := token.Claims.(jwt.MapClaims)
-	claims["user"] = id
+	claims["id"] = id
+
+	// user for normal user accounts , business_account for business accounts and admin for admin accounts.
+	claims["user_type"] = userType
 
 	tokenString, err := token.SignedString(secretKey)
 	if err != nil {

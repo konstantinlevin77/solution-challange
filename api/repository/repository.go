@@ -13,6 +13,7 @@ type Repository interface {
 	AddBusinessAccount(b models.BusinessAccount) error
 	GetAllBusinessAccounts() ([]models.BusinessAccount, error)
 	GetBusinessAccountById(id string) (models.BusinessAccount, error)
+	GetBusinessAccountByUsername(username string) (models.BusinessAccount, error)
 	DeleteBusinessAccountById(id string) error
 	UpdateBusinessAccountById(id string, updatedBusinessAccount models.BusinessAccount) error
 

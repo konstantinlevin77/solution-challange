@@ -36,9 +36,12 @@ func NewRoutes() *chi.Mux {
 		r.Put("/userReviews/updateById/{id}", handlers.UpdateUserReviewByIdHandler)
 	})
 
-	// Auth handlers
-	mux.Post("/auth/registerUser", handlers.UserRegisterHandler)
-	mux.Post("/auth/loginUser", handlers.UserLoginHandler)
+	mux.Route("/auth", func(r chi.Router) {
+		r.Post("/registerUser", handlers.UserRegisterHandler)
+		r.Post("/loginUser", handlers.UserLoginHandler)
+		r.Post("/registerBusinessAccount", handlers.BusinessAccountRegisterHandler)
+		r.Post("/loginBusinessAccount", handlers.BusinessAccountLoginHandler)
+	})
 
 	return mux
 }

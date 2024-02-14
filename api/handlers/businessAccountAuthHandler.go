@@ -9,31 +9,31 @@ import (
 	"net/http"
 )
 
-func UserRegisterHandler(w http.ResponseWriter, r *http.Request) {
+func BusinessAccountRegisterHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
-	var u models.User
-	err := json.NewDecoder(r.Body).Decode(&u)
+	var ba models.BusinessAccount
+	err := json.NewDecoder(r.Body).Decode(&ba)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		_, _ = w.Write(helpers.NewResultJSON(http.StatusBadRequest, "Invalid request payload."))
 		return
 	}
 
-	u.Password, err = helpers.HashPassword(u.Password)
+	ba.Password, err = helpers.HashPassword(ba.Password)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		_, _ = w.Write(helpers.NewResultJSON(http.StatusBadRequest, "Invalid request payload."))
 		return
 	}
 
-	if !helpers.IsEmailValid(u.Email) {
+	if !helpers.IsEmailValid(ba.Email) {
 		w.WriteHeader(http.StatusBadRequest)
 		_, _ = w.Write(helpers.NewResultJSON(http.StatusBadRequest, "Email not valid."))
 		return
 	}
 
-	err = config.App.Repository.AddUser(u)
+	err = config.App.Repository.AddBusinessAccount(ba)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		_, _ = w.Write(helpers.NewResultJSON(http.StatusBadRequest, "Invalid request payload."))
@@ -41,11 +41,12 @@ func UserRegisterHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusCreated)
-	_, _ = w.Write(helpers.NewResultJSON(http.StatusCreated, "User is added."))
+	_, _ = w.Write(helpers.NewResultJSON(http.StatusCreated, "Business account is added."))
 
 }
 
-func UserLoginHandler(w http.ResponseWriter, r *http.Request) {
+func BusinessAccountLoginHandler(w http.ResponseWriter, r *http.Request) {
+
 	// Parse request body to get user credentials
 	var credentials struct {
 		Username string `json:"username"`
@@ -58,21 +59,21 @@ func UserLoginHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Retrieve the user from the database
-	u, err := config.App.Repository.GetUserByUsername(credentials.Username)
+	b, err := config.App.Repository.GetBusinessAccountByUsername(credentials.Username)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		_, _ = w.Write(helpers.NewResultJSON(http.StatusBadRequest, "Invalid username or password."))
 		log.Println(err)
 		return
 	}
-	if !helpers.MatchHashAndPassword(credentials.Password, u.Password) {
+	if !helpers.MatchHashAndPassword(credentials.Password, b.Password) {
 		w.WriteHeader(http.StatusBadRequest)
 		_, _ = w.Write(helpers.NewResultJSON(http.StatusBadRequest, "Invalid username or password."))
 		return
 	}
 
 	// Generate a JWT token
-	token, err := helpers.GenerateToken("user", u.ID)
+	token, err := helpers.GenerateToken("user", b.ID)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Println(err)
@@ -83,4 +84,5 @@ func UserLoginHandler(w http.ResponseWriter, r *http.Request) {
 	// Respond with the token
 	w.WriteHeader(http.StatusOK)
 	_ = json.NewEncoder(w).Encode(map[string]string{"token": token})
+
 }
