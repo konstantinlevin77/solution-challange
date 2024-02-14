@@ -9,6 +9,16 @@ import (
 	"time"
 )
 
+func (fr *FirestoreRepository) BusinessAccountDoesUsernameExist(username string) bool {
+
+	ctx := context.Background()
+	l, _ := fr.Client.Collection("business_accounts").Where("username", "==", username).Documents(ctx).GetAll()
+	if len(l) > 0 {
+		return true
+	}
+	return false
+}
+
 func (fr *FirestoreRepository) AddBusinessAccount(b models.BusinessAccount) error {
 
 	ctx := context.Background()

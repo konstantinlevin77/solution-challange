@@ -3,6 +3,7 @@ package repository
 import "github.com/konstantinlevin77/solution-challenge/api/models"
 
 type Repository interface {
+	UserDoesUsernameExist(username string) bool
 	AddUser(u models.User) error
 	GetAllUsers() ([]models.User, error)
 	GetUserById(id string) (models.User, error)
@@ -10,6 +11,7 @@ type Repository interface {
 	DeleteUserById(id string) error
 	UpdateUserById(id string, updatedUser models.User) error
 
+	BusinessAccountDoesUsernameExist(username string) bool
 	AddBusinessAccount(b models.BusinessAccount) error
 	GetAllBusinessAccounts() ([]models.BusinessAccount, error)
 	GetBusinessAccountById(id string) (models.BusinessAccount, error)

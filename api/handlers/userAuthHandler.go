@@ -33,6 +33,12 @@ func UserRegisterHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if config.App.Repository.UserDoesUsernameExist(u.Username) {
+		w.WriteHeader(http.StatusBadRequest)
+		_, _ = w.Write(helpers.NewResultJSON(http.StatusBadRequest, "Username is taken."))
+		return
+	}
+
 	err = config.App.Repository.AddUser(u)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)

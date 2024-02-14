@@ -33,6 +33,12 @@ func BusinessAccountRegisterHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if config.App.Repository.BusinessAccountDoesUsernameExist(ba.Username) {
+		w.WriteHeader(http.StatusBadRequest)
+		_, _ = w.Write(helpers.NewResultJSON(http.StatusBadRequest, "Username is taken."))
+		return
+	}
+
 	err = config.App.Repository.AddBusinessAccount(ba)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
