@@ -6,6 +6,7 @@ type Repository interface {
 	AddUser(u models.User) error
 	GetAllUsers() ([]models.User, error)
 	GetUserById(id string) (models.User, error)
+	GetUserByUsername(username string) (models.User, error)
 	DeleteUserById(id string) error
 	UpdateUserById(id string, updatedUser models.User) error
 

@@ -3,6 +3,7 @@ package firestoreRepo
 import (
 	"cloud.google.com/go/firestore"
 	"context"
+	"errors"
 	"github.com/konstantinlevin77/solution-challenge/api/models"
 	"google.golang.org/api/iterator"
 	"time"
@@ -55,6 +56,28 @@ func (fr *FirestoreRepository) GetUserById(id string) (models.User, error) {
 	err = docsnap.DataTo(&u)
 	return u, err
 
+}
+
+func (fr *FirestoreRepository) GetUserByUsername(username string) (models.User, error) {
+
+	var u models.User
+	userFound := false
+	ctx := context.Background()
+	iter := fr.Client.Collection("users").Where("username", "==", username).Documents(ctx)
+	for {
+		doc, err := iter.Next()
+		if err == iterator.Done && userFound {
+			break
+		} else if err == iterator.Done && !userFound {
+			return u, errors.New("user not found")
+		}
+		err = doc.DataTo(&u)
+		if err != nil {
+			return u, err
+		}
+		userFound = true
+	}
+	return u, nil
 }
 
 func (fr *FirestoreRepository) DeleteUserById(id string) error {

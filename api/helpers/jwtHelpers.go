@@ -13,7 +13,7 @@ var secretKey = []byte(os.Getenv("JWT_SECRET_KEY"))
 // GenerateToken generates a JWT token using EdDSA signing method.
 func GenerateToken(id string) (string, error) {
 
-	token := jwt.New(jwt.SigningMethodEdDSA)
+	token := jwt.New(jwt.SigningMethodHS256)
 
 	claims := token.Claims.(jwt.MapClaims)
 	claims["user"] = id
@@ -31,11 +31,11 @@ func GenerateToken(id string) (string, error) {
 func ValidateToken(tokenString string) (jwt.MapClaims, error) {
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		// Validate the signing method and provide the secret key
-		if _, ok := token.Method.(*jwt.SigningMethodEd25519); !ok {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
 		}
 
-		return []byte(os.Getenv("JWT_SECRET_KEY")), nil
+		return secretKey, nil
 	})
 
 	if err != nil {
