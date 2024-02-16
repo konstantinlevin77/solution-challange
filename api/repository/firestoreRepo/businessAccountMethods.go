@@ -3,10 +3,21 @@ package firestoreRepo
 import (
 	"cloud.google.com/go/firestore"
 	"context"
+	"errors"
 	"github.com/konstantinlevin77/solution-challenge/api/models"
 	"google.golang.org/api/iterator"
 	"time"
 )
+
+func (fr *FirestoreRepository) BusinessAccountDoesUsernameExist(username string) bool {
+
+	ctx := context.Background()
+	l, _ := fr.Client.Collection("business_accounts").Where("username", "==", username).Documents(ctx).GetAll()
+	if len(l) > 0 {
+		return true
+	}
+	return false
+}
 
 func (fr *FirestoreRepository) AddBusinessAccount(b models.BusinessAccount) error {
 
@@ -57,6 +68,27 @@ func (fr *FirestoreRepository) GetBusinessAccountById(id string) (models.Busines
 	err = docsnap.DataTo(&ba)
 	return ba, err
 
+}
+
+func (fr *FirestoreRepository) GetBusinessAccountByUsername(username string) (models.BusinessAccount, error) {
+	var b models.BusinessAccount
+	userFound := false
+	ctx := context.Background()
+	iter := fr.Client.Collection("business_accounts").Where("username", "==", username).Documents(ctx)
+	for {
+		doc, err := iter.Next()
+		if err == iterator.Done && userFound {
+			break
+		} else if err == iterator.Done && !userFound {
+			return b, errors.New("business account not found")
+		}
+		err = doc.DataTo(&b)
+		if err != nil {
+			return b, err
+		}
+		userFound = true
+	}
+	return b, nil
 }
 
 func (fr *FirestoreRepository) DeleteBusinessAccountById(id string) error {
