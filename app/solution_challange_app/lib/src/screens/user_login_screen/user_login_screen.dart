@@ -30,11 +30,11 @@ class UserLoginScreen extends StatelessWidget {
               children: [
                 Text(
                   "Need an account? ",
-                  style: TextStyle(fontWeight: FontWeight.w700),
+                  style: TextStyle(fontWeight: FontWeight.w700,fontSize: 18),
                 ),
                 Text(
                   "SIGN UP",
-                  style: TextStyle(fontWeight: FontWeight.w900),
+                  style: TextStyle(fontWeight: FontWeight.w900,fontSize: 18),
                 )
               ],
             ),
@@ -44,8 +44,8 @@ class UserLoginScreen extends StatelessWidget {
             child: const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("LOGIN/SIGNUP",style: TextStyle(fontWeight: FontWeight.w400),),
-                Text(" here if you are a business owner",style: TextStyle(fontWeight: FontWeight.w400),),
+                Text("LOGIN/SIGNUP",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12),),
+                Text(" here if you are a business owner",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12),),
               ],
             ),
           )

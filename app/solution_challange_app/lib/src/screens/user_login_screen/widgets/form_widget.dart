@@ -27,6 +27,8 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
           margin: const EdgeInsets.fromLTRB(50, 5, 50, 5),
           child: TextFormField(
             decoration: const InputDecoration(
+              filled: true,
+              fillColor: TEXT_FIELD_COLOR,
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(20))),
             ),
@@ -48,6 +50,8 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
           child: TextFormField(
             obscureText: true,
             decoration: const InputDecoration(
+                filled: true,
+                fillColor: TEXT_FIELD_COLOR,
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(20)))),
             controller: passwordController,
@@ -62,7 +66,11 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 16),
           child: ElevatedButton(
-            child: const Text("Login"),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color.fromARGB(255, 220, 219, 219),
+              padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+            ),
+            child: const Text("LOGIN",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),),
             onPressed: () {
               if (_formKey.currentState!.validate()) {
                 String username = usernameController.text;
