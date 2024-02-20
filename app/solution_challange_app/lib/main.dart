@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:solution_challange_app/src/constants.dart';
+import 'package:solution_challange_app/src/screens/user_login_screen/user_login_screen.dart';
 import 'package:solution_challange_app/src/services/auth_service.dart';
 import 'package:provider/provider.dart';
 import 'package:solution_challange_app/src/services/user_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  await UserService(baseUrl: BASE_URL)
-      .loginUser("testusername", "testpassword");
 
   runApp(ChangeNotifierProvider(
     create: (context) => AuthService(),
@@ -32,9 +30,12 @@ class AuthenticationWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context);
 
-    return authService.isLoggedIn ? MainScreen() : LoginScreen();
+    return authService.isLoggedIn
+        ? const MainScreen()
+        : const UserLoginScreen();
   }
 }
+
 /*
 These widgets are just for test purposes.
 */
