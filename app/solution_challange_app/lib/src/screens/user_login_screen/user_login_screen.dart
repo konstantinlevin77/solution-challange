@@ -25,16 +25,21 @@ class UserLoginScreen extends StatelessWidget {
           const LoginFormWidget(),
           Container(
             padding: const EdgeInsets.fromLTRB(20, 60, 20, 5),
-            child: const Row(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
+                const Text(
                   "Need an account? ",
                   style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
                 ),
-                Text(
-                  "SIGN UP",
-                  style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18),
+                InkWell(
+                  child: const Text(
+                    "SIGN UP",
+                    style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18),
+                  ),
+                  onTap: () {
+                    Navigator.pushNamed(context, "/user-signup");
+                  },
                 )
               ],
             ),
@@ -46,7 +51,8 @@ class UserLoginScreen extends StatelessWidget {
               children: [
                 InkWell(
                   onTap: () {
-                    Navigator.of(context,rootNavigator: true).pushReplacementNamed("/business-login");
+                    Navigator.of(context, rootNavigator: true)
+                        .pushNamed("/business-login");
                   },
                   child: const Text(
                     "LOGIN/SIGNUP",

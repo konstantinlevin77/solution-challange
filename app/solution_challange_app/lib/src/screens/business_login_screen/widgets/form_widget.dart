@@ -73,6 +73,9 @@ class _BusinessLoginFormWidgetState extends State<BusinessLoginFormWidget> {
                 BusinessAccountService(baseUrl: BASE_URL)
                     .loginBusinessAccount(username, password)
                     .then((value) {
+                  if (value) {
+                    Navigator.pushReplacementNamed(context, "/main");
+                  }
                   if (!value) {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text("Username or password is wrong")));

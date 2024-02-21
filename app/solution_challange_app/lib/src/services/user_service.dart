@@ -4,7 +4,6 @@ import 'package:http/http.dart' as http;
 import 'package:jwt_decode/jwt_decode.dart';
 
 import 'package:solution_challange_app/src/models/user.dart';
-import 'package:solution_challange_app/src/services/auth_service.dart';
 import 'package:solution_challange_app/src/services/storage_service.dart';
 
 class UserService {
@@ -54,8 +53,6 @@ class UserService {
       SecureStorageService().writeSecureData("id", id);
       SecureStorageService().writeSecureData("user_type", userType);
 
-      AuthService().login();
-
       return true;
     }
     return false;
@@ -65,7 +62,19 @@ class UserService {
     SecureStorageService().deleteSecureData("token");
     SecureStorageService().deleteSecureData("id");
     SecureStorageService().deleteSecureData("user_type");
+  }
 
-    AuthService().logout();
+  Future<bool> registerUser(User user) async {
+    final userJSON = jsonEncode(user.toJson());
+    final response = await http.post(Uri.parse("$baseUrl/auth/registerUser"),
+        body: userJSON);
+
+    if (response.statusCode == 201) {
+      return true;
+    } else {
+      print(response.body);
+      print(response.statusCode);
+      throw Exception("Something wrong happened!");
+    }
   }
 }

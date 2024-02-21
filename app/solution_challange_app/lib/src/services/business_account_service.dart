@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:solution_challange_app/src/models/business_account.dart';
-import 'package:solution_challange_app/src/services/auth_service.dart';
 import 'package:solution_challange_app/src/services/storage_service.dart';
 
 // TODO: Better error handling is needed.
@@ -56,9 +55,6 @@ class BusinessAccountService {
       SecureStorageService().writeSecureData("token", jwtToken);
       SecureStorageService().writeSecureData("id", id);
       SecureStorageService().writeSecureData("user_type", userType);
-
-      AuthService().login();
-
       return true;
     }
 
@@ -70,6 +66,5 @@ class BusinessAccountService {
     SecureStorageService().deleteSecureData("id");
     SecureStorageService().deleteSecureData("user_type");
 
-    AuthService().logout();
   }
 }

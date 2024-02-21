@@ -1,25 +1,11 @@
-import 'package:flutter/foundation.dart';
+import 'package:solution_challange_app/src/services/storage_service.dart';
 
-class AuthService with ChangeNotifier {
-  static final AuthService _instance = AuthService._internal();
-
-  factory AuthService() {
-    return _instance;
-  }
-
-  AuthService._internal();
-
-  bool _isLoggedIn = false;
-
-  bool get isLoggedIn => _isLoggedIn;
-
-  void login() {
-    _isLoggedIn = true;
-    notifyListeners();
-  }
-
-  void logout() {
-    _isLoggedIn = false;
-    notifyListeners();
+class AuthService {
+  Future<bool> isLoggedIn() async {
+    String res = await SecureStorageService().readSecureData("token");
+    if (res == '') {
+      return false;
+    }
+    return true;
   }
 }

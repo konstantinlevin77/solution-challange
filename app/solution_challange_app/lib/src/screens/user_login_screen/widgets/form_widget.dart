@@ -72,6 +72,9 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                 UserService(baseUrl: BASE_URL)
                     .loginUser(username, password)
                     .then((value) {
+                  if (value) {
+                    Navigator.pushReplacementNamed(context, "/main");
+                  }
                   if (!value) {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text("Username or password is wrong.")));

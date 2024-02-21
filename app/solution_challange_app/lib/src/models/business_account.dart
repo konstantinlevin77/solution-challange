@@ -9,8 +9,6 @@ class BusinessAccount {
   String instaProfileLink;
   double latitude;
   double longitude;
-  DateTime createdAt;
-  DateTime updatedAt;
 
   BusinessAccount({
     required this.id,
@@ -23,8 +21,6 @@ class BusinessAccount {
     required this.instaProfileLink,
     required this.latitude,
     required this.longitude,
-    required this.createdAt,
-    required this.updatedAt,
   });
 
   factory BusinessAccount.fromJson(Map<String, dynamic> json) {
@@ -38,9 +34,7 @@ class BusinessAccount {
         profilePicturePath: json["profile_picture_path"],
         instaProfileLink: json["insta_profile_link"],
         latitude: json["latitude"],
-        longitude: json["longitude"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]));
+        longitude: json["longitude"],);
   }
 
   Map<String, dynamic> toJson() {
@@ -55,8 +49,6 @@ class BusinessAccount {
       "insta_profile_link": instaProfileLink,
       "latitude": latitude,
       "longitude": longitude,
-      "created_at": createdAt,
-      "updated_at": updatedAt,
     };
   }
 }
