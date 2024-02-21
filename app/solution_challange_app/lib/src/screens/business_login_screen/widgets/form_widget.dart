@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:solution_challange_app/src/constants.dart';
-import 'package:solution_challange_app/src/services/user_service.dart';
+import 'package:solution_challange_app/src/services/business_account_service.dart';
 
-class LoginFormWidget extends StatefulWidget {
-  const LoginFormWidget({super.key});
+class BusinessLoginFormWidget extends StatefulWidget {
+  const BusinessLoginFormWidget({super.key});
 
   @override
-  State<LoginFormWidget> createState() => _LoginFormWidgetState();
+  State<BusinessLoginFormWidget> createState() =>
+      _BusinessLoginFormWidgetState();
 }
 
-class _LoginFormWidgetState extends State<LoginFormWidget> {
+class _BusinessLoginFormWidgetState extends State<BusinessLoginFormWidget> {
   final _formKey = GlobalKey<FormState>();
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
@@ -20,7 +21,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
       key: _formKey,
       child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
         const Text(
-          "Username:",
+          "Business Username:",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         Container(
@@ -29,7 +30,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
             controller: usernameController,
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return "Username can't be empty.";
+                return "Business username can't be empty.";
               }
               return null;
             },
@@ -69,15 +70,16 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                 String username = usernameController.text;
                 String password = passwordController.text;
 
-                UserService(baseUrl: BASE_URL)
-                    .loginUser(username, password)
+                BusinessAccountService(baseUrl: BASE_URL)
+                    .loginBusinessAccount(username, password)
                     .then((value) {
                   if (!value) {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text("Username or password is wrong.")));
+                        content: Text("Username or password is wrong")));
                   }
                 });
               }
+              setState(() {});
             },
           ),
         )

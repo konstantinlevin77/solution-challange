@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:solution_challange_app/src/constants.dart';
+import 'package:solution_challange_app/src/screens/business_login_screen/business_login_screen.dart';
 import 'package:solution_challange_app/src/screens/user_login_screen/user_login_screen.dart';
 import 'package:solution_challange_app/src/services/auth_service.dart';
 import 'package:provider/provider.dart';
@@ -20,11 +21,24 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      routes: {
+        "/business-login": (context) => const BusinessAccountLoginScreen()
+      },
       theme: ThemeData(
-        inputDecorationTheme: const InputDecorationTheme(
-          
-        )
-      ),
+        textSelectionTheme: const TextSelectionThemeData(cursorColor: Colors.black),
+          inputDecorationTheme: const InputDecorationTheme(
+        enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+            borderSide: BorderSide(color: Colors.black)),
+        focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+            borderSide: BorderSide(color: Colors.black)),
+        border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+            borderSide: BorderSide(color: TEXT_FIELD_COLOR)),
+        filled: true,
+        fillColor: TEXT_FIELD_COLOR,
+      )),
       home: AuthenticationWrapper(),
     );
   }

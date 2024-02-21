@@ -30,22 +30,33 @@ class UserLoginScreen extends StatelessWidget {
               children: [
                 Text(
                   "Need an account? ",
-                  style: TextStyle(fontWeight: FontWeight.w700,fontSize: 18),
+                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
                 ),
                 Text(
                   "SIGN UP",
-                  style: TextStyle(fontWeight: FontWeight.w900,fontSize: 18),
+                  style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18),
                 )
               ],
             ),
           ),
           Container(
-            padding: const EdgeInsets.fromLTRB(20,10,20,10),
-            child: const Row(
+            padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("LOGIN/SIGNUP",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12),),
-                Text(" here if you are a business owner",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12),),
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context,rootNavigator: true).pushReplacementNamed("/business-login");
+                  },
+                  child: const Text(
+                    "LOGIN/SIGNUP",
+                    style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),
+                  ),
+                ),
+                const Text(
+                  " here if you are a business owner",
+                  style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),
+                ),
               ],
             ),
           )
