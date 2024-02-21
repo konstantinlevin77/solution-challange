@@ -7,6 +7,7 @@ import (
 	"github.com/konstantinlevin77/solution-challenge/api/models"
 	"log"
 	"net/http"
+	"time"
 )
 
 func UserRegisterHandler(w http.ResponseWriter, r *http.Request) {
@@ -14,6 +15,8 @@ func UserRegisterHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var u models.User
 	err := json.NewDecoder(r.Body).Decode(&u)
+	u.CreatedAt = time.Now()
+	u.UpdatedAt = time.Now()
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		_, _ = w.Write(helpers.NewResultJSON(http.StatusBadRequest, "Invalid request payload."))

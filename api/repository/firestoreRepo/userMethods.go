@@ -105,8 +105,6 @@ func (fr *FirestoreRepository) UpdateUserById(id string, updatedUser models.User
 		{Path: "password", Value: updatedUser.Password},
 		{Path: "first_name", Value: updatedUser.FirstName},
 		{Path: "last_name", Value: updatedUser.LastName},
-		{Path: "age", Value: updatedUser.Age},
-		{Path: "gender", Value: updatedUser.Gender},
 		{Path: "bio", Value: updatedUser.Bio},
 		{Path: "profile_picture_path", Value: updatedUser.ProfilePicturePath},
 		{Path: "insta_profile_link", Value: updatedUser.InstaProfileLink},

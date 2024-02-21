@@ -1,0 +1,28 @@
+import 'package:flutter/material.dart';
+import 'package:solution_challange_app/src/screens/user_signup_screen/widgets/form_widget.dart';
+
+class UserSignupScreen extends StatelessWidget {
+  const UserSignupScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                margin: const EdgeInsets.fromLTRB(20,30,20,20),
+                padding: const EdgeInsets.fromLTRB(0, 40, 0, 0),
+                child: const Text(
+                    "Sign up to see gluten-free restaurants!",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),),
+              ),
+              const UserSignupFormWidget()
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
