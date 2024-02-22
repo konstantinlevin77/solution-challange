@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:solution_challange_app/src/constants.dart';
 import 'package:solution_challange_app/src/models/user.dart';
+import 'package:solution_challange_app/src/services/cache_service.dart';
+import 'package:solution_challange_app/src/services/storage_service.dart';
 import 'package:solution_challange_app/src/services/user_service.dart';
 
-class UserSignupFormWidget extends StatefulWidget {
-  const UserSignupFormWidget({super.key});
+// ignore: must_be_immutable
+class UserProfileEditWidget extends StatefulWidget {
+  User user;
+
+  UserProfileEditWidget({required this.user});
 
   @override
-  State<UserSignupFormWidget> createState() => _UserSignupFormWidgetState();
+  State<UserProfileEditWidget> createState() => _UserProfileEditWidgetState();
 }
 
-class _UserSignupFormWidgetState extends State<UserSignupFormWidget> {
+class _UserProfileEditWidgetState extends State<UserProfileEditWidget> {
   final _formKey = GlobalKey<FormState>();
   final usernameController = TextEditingController();
   final emailController = TextEditingController();
@@ -19,9 +24,12 @@ class _UserSignupFormWidgetState extends State<UserSignupFormWidget> {
   final passwordController = TextEditingController();
   final bioController = TextEditingController();
   final instaProfileLinkController = TextEditingController();
+  final cacheService =
+      CacheService(secureStorageService: SecureStorageService());
 
   @override
   Widget build(BuildContext context) {
+
     return Form(
       key: _formKey,
       child: Column(
@@ -34,7 +42,7 @@ class _UserSignupFormWidgetState extends State<UserSignupFormWidget> {
           Container(
             margin: const EdgeInsets.fromLTRB(50, 5, 50, 5),
             child: TextFormField(
-              controller: usernameController,
+              controller: usernameController..text=widget.user.username,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return "Username can't be empty.";
@@ -50,7 +58,7 @@ class _UserSignupFormWidgetState extends State<UserSignupFormWidget> {
           Container(
             margin: const EdgeInsets.fromLTRB(50, 5, 50, 5),
             child: TextFormField(
-              controller: firstNameController,
+              controller: firstNameController..text=widget.user.firstName,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return "First name can't be empty.";
@@ -66,7 +74,7 @@ class _UserSignupFormWidgetState extends State<UserSignupFormWidget> {
           Container(
             margin: const EdgeInsets.fromLTRB(50, 5, 50, 5),
             child: TextFormField(
-              controller: lastNameController,
+              controller: lastNameController..text=widget.user.lastName,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return "Last name can't be empty.";
@@ -82,7 +90,7 @@ class _UserSignupFormWidgetState extends State<UserSignupFormWidget> {
           Container(
             margin: const EdgeInsets.fromLTRB(50, 5, 50, 5),
             child: TextFormField(
-              controller: emailController,
+              controller: emailController..text=widget.user.email,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return "Email can't be empty.";
@@ -96,29 +104,13 @@ class _UserSignupFormWidgetState extends State<UserSignupFormWidget> {
             ),
           ),
           const Text(
-            "Password:",
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          Container(
-            margin: const EdgeInsets.fromLTRB(50, 5, 50, 5),
-            child: TextFormField(
-              controller: passwordController,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return "Password can't be empty.";
-                }
-                return null;
-              },
-            ),
-          ),
-          const Text(
             "Biography:",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           Container(
             margin: const EdgeInsets.fromLTRB(50, 5, 50, 5),
             child: TextFormField(
-              controller: bioController,
+              controller: bioController..text=widget.user.bio,
             ),
           ),
           const Text(
@@ -133,7 +125,7 @@ class _UserSignupFormWidgetState extends State<UserSignupFormWidget> {
           Container(
             margin: const EdgeInsets.fromLTRB(50, 5, 50, 5),
             child: TextFormField(
-              controller: instaProfileLinkController,
+              controller: instaProfileLinkController..text=widget.user.instaProfileLink,
               validator: (value) {
                 final instagramRegex = RegExp(
                     r"^(https?:\/\/)?(www\.)?instagram\.com\/[a-zA-Z0-9_.]+\/?$",
@@ -154,29 +146,30 @@ class _UserSignupFormWidgetState extends State<UserSignupFormWidget> {
                     const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
               ),
               child: const Text(
-                "Sign up",
+                "Edit",
                 style:
                     TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
               ),
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   // TODO: For now, leave the image path empty.
-                  var u = User(
-                    id: "",
-                    username: usernameController.text,
-                    email: emailController.text,
-                    password: passwordController.text,
-                    firstName: firstNameController.text,
-                    lastName: lastNameController.text,
-                    bio: bioController.text,
-                    profilePicturePath: "",
-                    instaProfileLink: instaProfileLinkController.text,
-                  );
-                  UserService(baseUrl: BASE_URL).registerUser(u).then((value) {
-                    if (value) {
-                      Navigator.pushReplacementNamed(context, "/user-login");
+                  widget.user.username = usernameController.text;
+                  widget.user.firstName = firstNameController.text;
+                  widget.user.lastName = lastNameController.text;
+                  widget.user.email = emailController.text;
+                  widget.user.bio = bioController.text;
+                  widget.user.instaProfileLink =
+                      instaProfileLinkController.text;
+
+                  UserService(baseUrl: BASE_URL)
+                      .updateUser(widget.user)
+                      .then((result) {
+                    if (result) {
+                      CacheService(secureStorageService: SecureStorageService())
+                          .cacheUser(widget.user);
+                      Navigator.pushReplacementNamed(context, "/main");
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text("User is succesfully signed up.")));
+                          content: Text("Succesfully updated.")));
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                           content: Text("Something went wrong.")));
