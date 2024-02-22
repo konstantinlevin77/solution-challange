@@ -135,10 +135,10 @@ class _UserSignupFormWidgetState extends State<UserSignupFormWidget> {
             child: TextFormField(
               controller: instaProfileLinkController,
               validator: (value) {
-                final regex = RegExp(
-                    r'^(https?:\/\/)?(www\.)?instagram\.com\/[a-zA-Z0-9_]+\/?$');
-
-                if ((value!.isNotEmpty) && !regex.hasMatch(value)) {
+                final instagramRegex = RegExp(
+                    r"^(https?:\/\/)?(www\.)?instagram\.com\/[a-zA-Z0-9_.]+\/?$",
+                    caseSensitive: false);
+                if ((value!.isNotEmpty) && !instagramRegex.hasMatch(value)) {
                   return "Please type a valid instagram link.";
                 }
                 return null;

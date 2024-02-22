@@ -28,6 +28,13 @@ class MainApp extends StatelessWidget {
         "/user-signup":(context) => const UserSignupScreen()
       },
       theme: ThemeData(
+        primaryColor: TEXT_FIELD_COLOR,
+        scaffoldBackgroundColor: Colors.white,
+        colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: Colors.orange,
+          accentColor: Colors.deepOrangeAccent,
+          brightness: Brightness.light
+        ),
           textSelectionTheme:
               const TextSelectionThemeData(cursorColor: Colors.black),
           inputDecorationTheme: const InputDecorationTheme(

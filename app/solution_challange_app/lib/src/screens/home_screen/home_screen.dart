@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:solution_challange_app/src/screens/user_profile_screen/user_profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,7 +14,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _screens = [
     const Text("Explore Page"),
     const Text("Map Page"),
-    const Text("Profile Page")
+    UserProfileScreen(),
   ];
 
   @override
