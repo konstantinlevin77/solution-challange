@@ -6,9 +6,6 @@ import 'package:solution_challange_app/src/screens/user_login_screen/user_login_
 import 'package:solution_challange_app/src/screens/user_profile_edit_screen/user_profile_edit_screen.dart';
 import 'package:solution_challange_app/src/screens/user_signup_screen/user_signup_screen.dart';
 import 'package:solution_challange_app/src/services/auth_service.dart';
-import 'package:solution_challange_app/src/services/business_account_service.dart';
-import 'package:solution_challange_app/src/services/storage_service.dart';
-import 'package:solution_challange_app/src/services/user_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -95,40 +92,3 @@ class _AppEntryState extends State<AppEntry> {
   }
 }
 
-/*
-These widgets are just for test purposes.
-*/
-
-class MainScreen extends StatelessWidget {
-  const MainScreen({super.key});
-
-  void _logOut() {
-    SecureStorageService().readSecureData("user_type").then((value) {
-      if (value == "user") {
-        UserService(baseUrl: BASE_URL).logoutUser();
-      } else if (value == "business_account") {
-        BusinessAccountService(baseUrl: BASE_URL).logoutBusinessAccount();
-      }
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text("You are logged in bro"),
-            ElevatedButton(
-                onPressed: () {
-                  _logOut();
-                  Navigator.pushReplacementNamed(context, "/user-login");
-                },
-                child: const Text("log out"))
-          ],
-        ),
-      ),
-    );
-  }
-}
