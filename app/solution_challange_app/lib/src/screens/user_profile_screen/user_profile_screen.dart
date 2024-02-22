@@ -42,7 +42,9 @@ class UserProfileScreenTree extends StatelessWidget {
                       padding: const EdgeInsets.fromLTRB(100, 0, 0, 0),
                       child: InkWell(
                         child: const Icon(Icons.edit),
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.pushNamed(context, "/user-profile-edit");
+                        },
                       ),
                     ),
                     Container(
@@ -104,8 +106,6 @@ class UserProfileScreenTree extends StatelessWidget {
     );
   }
 }
-
-
 
 class UserProfileScreen extends StatelessWidget {
   @override

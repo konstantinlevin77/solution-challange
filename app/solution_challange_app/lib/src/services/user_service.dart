@@ -28,6 +28,27 @@ class UserService {
     }
   }
 
+  Future<bool> updateUser(User user) async {
+    String jwtToken = await SecureStorageService().readSecureData("token");
+    final id = user.id;
+    final userJSON = jsonEncode(user.toJson());
+    final response = await http.put(
+        Uri.parse("$baseUrl/protected/users/updateById/$id"),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $jwtToken'
+        },
+        body: userJSON);
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      print(response.body);
+      print(response.statusCode);
+    }
+    return false;
+  }
+
   Future<bool> loginUser(String username, String password) async {
     final Map<String, String> credentials = {
       "username": username,
