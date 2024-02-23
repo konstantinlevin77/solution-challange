@@ -94,7 +94,9 @@ class UserProfileScreenTree extends StatelessWidget {
                 ),
               ),
               ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, "/user-profile-reviews");
+                  },
                   child: const Text(
                     "User Reviews",
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),

@@ -4,6 +4,7 @@ import 'package:solution_challange_app/src/screens/business_login_screen/busines
 import 'package:solution_challange_app/src/screens/home_screen/home_screen.dart';
 import 'package:solution_challange_app/src/screens/user_login_screen/user_login_screen.dart';
 import 'package:solution_challange_app/src/screens/user_profile_edit_screen/user_profile_edit_screen.dart';
+import 'package:solution_challange_app/src/screens/user_profile_reviews_screen/user_profile_reviews_screen.dart';
 import 'package:solution_challange_app/src/screens/user_signup_screen/user_signup_screen.dart';
 import 'package:solution_challange_app/src/services/auth_service.dart';
 
@@ -25,6 +26,7 @@ class MainApp extends StatelessWidget {
         "/main": (context) => const HomeScreen(),
         "/user-signup":(context) => const UserSignupScreen(),
         "/user-profile-edit":(context) => UserProfileEditScreen(),
+        "/user-profile-reviews":(context) => const UserProfileReviewsScreen(),
       },
       theme: ThemeData(
         primaryColor: TEXT_FIELD_COLOR,
