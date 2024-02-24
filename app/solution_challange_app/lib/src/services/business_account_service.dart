@@ -43,7 +43,6 @@ class BusinessAccountService {
         body: credentialsJSON);
 
     if (response.statusCode == 200) {
-
       String id;
       String userType;
       String jwtToken = jsonDecode(response.body)["token"];
@@ -65,6 +64,19 @@ class BusinessAccountService {
     SecureStorageService().deleteSecureData("token");
     SecureStorageService().deleteSecureData("id");
     SecureStorageService().deleteSecureData("user_type");
+  }
 
+  Future<bool> registerBusinessAccount(BusinessAccount businessAccount) async {
+    final businessAccountJSON = jsonEncode(businessAccount.toJson());
+    final response = await http.post(
+        Uri.parse("$baseUrl/auth/registerBusinessAccount"),
+        body: businessAccountJSON);
+    if (response.statusCode == 201) {
+      return true;
+    } else {
+      print(response.body);
+      print(response.statusCode);
+      return false;
+    }
   }
 }

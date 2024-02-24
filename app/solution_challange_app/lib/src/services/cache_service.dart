@@ -78,4 +78,18 @@ class CacheService {
 
     return u;
   }
+
+  Future clearUserCache() async {
+    await secureStorageService.deleteSecureData("CACHE_user_cached");
+    await secureStorageService.deleteSecureData("CACHE_user_id");
+    await secureStorageService.deleteSecureData("CACHE_user_username");
+    await secureStorageService.deleteSecureData("CACHE_user_email");
+    await secureStorageService.deleteSecureData("CACHE_user_password");
+    await secureStorageService.deleteSecureData("CACHE_user_firstname");
+    await secureStorageService.deleteSecureData("CACHE_user_lastname");
+    await secureStorageService.deleteSecureData("CACHE_user_bio");
+    await secureStorageService.deleteSecureData("CACHE_user_instaprofilelink");
+    await secureStorageService
+        .deleteSecureData("CACHE_user_profilepicturepath");
+  }
 }

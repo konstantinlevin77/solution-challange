@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:solution_challange_app/src/constants.dart';
 import 'package:solution_challange_app/src/dataLoaders/user_data_loader.dart';
 import 'package:solution_challange_app/src/models/user.dart';
+import 'package:solution_challange_app/src/services/cache_service.dart';
+import 'package:solution_challange_app/src/services/storage_service.dart';
 import 'package:solution_challange_app/src/services/user_service.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -53,6 +55,9 @@ class UserProfileScreenTree extends StatelessWidget {
                         child: const Icon(Icons.logout),
                         onTap: () {
                           UserService(baseUrl: BASE_URL).logoutUser();
+                          CacheService(
+                                  secureStorageService: SecureStorageService())
+                              .clearUserCache();
                           Navigator.pushReplacementNamed(
                               context, "/user-login");
                         },
