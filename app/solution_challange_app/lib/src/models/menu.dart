@@ -5,8 +5,8 @@ class Menu {
   String businessName;
 
   // this map should have only two fields, name->string and isGlutenFree->bool
-  Map ingredients;
-  String price;
+  String ingredients;
+  double price;
   String exampleImagePath;
   bool isGlutenFree;
 
@@ -27,21 +27,20 @@ class Menu {
         businessId: json["business_id"],
         businessName: json["business_name"],
         ingredients: json["ingredients"],
-        price: json["price"],
+        price: double.parse('${json["price"]}'),
         exampleImagePath: json["example_image_path"],
         isGlutenFree: json["is_gluten_free"]);
   }
 
   Map<String, dynamic> toJson() {
     return {
-      "id":id,
-      "name":name,
-      "business_id":businessId,
-      "ingredients":ingredients,
-      "price":price,
-      "example_image_path":exampleImagePath,
-      "is_gluten_free":isGlutenFree
+      "id": id,
+      "name": name,
+      "business_id": businessId,
+      "ingredients": ingredients,
+      "price": price,
+      "example_image_path": exampleImagePath,
+      "is_gluten_free": isGlutenFree
     };
   }
-
 }

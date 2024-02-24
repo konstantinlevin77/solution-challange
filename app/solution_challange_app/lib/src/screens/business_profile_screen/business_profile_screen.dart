@@ -23,97 +23,94 @@ class BusinessAccountProfileScreenTree extends StatelessWidget {
   }
 
   Widget buildWidgetTree(BuildContext context, businessAccount) {
-    return Center(
-      child: SingleChildScrollView(
-        child: Container(
-          margin: const EdgeInsets.all(40),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                padding: const EdgeInsets.fromLTRB(0, 20, 0, 50),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      businessAccount.username,
-                      style: const TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.fromLTRB(100, 0, 0, 0),
-                      child: InkWell(
-                        child: const Icon(Icons.restaurant_menu),
-                        onTap: () {
-                          // TODO: Navigate to the add menu screen.
-                        },
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                      child: InkWell(
-                        child: const Icon(Icons.logout),
-                        onTap: () {
-                          BusinessAccountService(baseUrl: BASE_URL)
-                              .logoutBusinessAccount();
-                          CacheService(
-                                  secureStorageService: SecureStorageService())
-                              .clearBusinessAccountCache();
-                          Navigator.pushReplacementNamed(
-                              context, "/user-login");
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.fromLTRB(0, 10, 0, 40),
-                width: 100,
-                height: 100,
-                child: const Placeholder(),
-              ),
-               Text(
-                businessAccount.address,
-                maxLines: null,
-                overflow: TextOverflow.visible,
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text(
-                businessAccount.bio,
-                maxLines: null,
-                overflow: TextOverflow.visible,
-              ),
-              Visibility(
-                visible: businessAccount.instaProfileLink != null &&
-                    businessAccount.instaProfileLink.isNotEmpty,
-                child: Container(
-                  padding: const EdgeInsets.fromLTRB(0, 40, 0, 20),
+    return Scaffold(
+      body: Center(
+        child: SingleChildScrollView(
+          child: Container(
+            margin: const EdgeInsets.all(40),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 50),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    // TODO: Change this with an actual insta logo
                     children: [
-                      const Icon(Icons.photo_camera),
-                      InkWell(
-                        child: const Text("INSTA PROFILE"),
-                        onTap: () {
-                          _launchInstagramProfile(
-                              context, businessAccount.instaProfileLink);
-                        },
-                      )
+                      Text(
+                        businessAccount.username,
+                        style: const TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(100, 0, 0, 0),
+                        child: InkWell(
+                          child: const Icon(Icons.restaurant_menu),
+                          onTap: () {
+                            // TODO: Navigate to the add menu screen.
+                            Navigator.pushNamed(
+                                context, "/business-profile-menu");
+                          },
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                        child: InkWell(
+                          child: const Icon(Icons.logout),
+                          onTap: () {
+                            BusinessAccountService(baseUrl: BASE_URL)
+                                .logoutBusinessAccount();
+                            CacheService(
+                                    secureStorageService:
+                                        SecureStorageService())
+                                .clearBusinessAccountCache();
+                            Navigator.pushReplacementNamed(
+                                context, "/user-login");
+                          },
+                        ),
+                      ),
                     ],
                   ),
                 ),
-              ),
-              ElevatedButton(
-                  onPressed: () {
-                    // TODO: Navigate to the see menus screen.
-                  },
-                  child: const Text(
-                    "Menus",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ))
-            ],
+                Container(
+                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 40),
+                  width: 100,
+                  height: 100,
+                  child: const Placeholder(),
+                ),
+                Text(
+                  businessAccount.address,
+                  maxLines: null,
+                  overflow: TextOverflow.visible,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  businessAccount.bio,
+                  maxLines: null,
+                  overflow: TextOverflow.visible,
+                ),
+                Visibility(
+                  visible: businessAccount.instaProfileLink != null &&
+                      businessAccount.instaProfileLink.isNotEmpty,
+                  child: Container(
+                    padding: const EdgeInsets.fromLTRB(0, 40, 0, 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      // TODO: Change this with an actual insta logo
+                      children: [
+                        const Icon(Icons.photo_camera),
+                        InkWell(
+                          child: const Text("INSTA PROFILE"),
+                          onTap: () {
+                            _launchInstagramProfile(
+                                context, businessAccount.instaProfileLink);
+                          },
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

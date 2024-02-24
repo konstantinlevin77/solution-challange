@@ -32,8 +32,6 @@ class ReviewsService {
   Future<List<Review>> getReviewsByUserId(String userId) async {
     String jwtToken = await SecureStorageService().readSecureData("token");
 
-    print("GIVEN USER ID $userId");
-
     final response = await http.get(
         Uri.parse("$baseUrl/protected/userReviews/getByUserId/$userId"),
         headers: {

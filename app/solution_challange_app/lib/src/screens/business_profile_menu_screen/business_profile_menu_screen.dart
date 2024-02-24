@@ -1,15 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:solution_challange_app/src/constants.dart';
-import 'package:solution_challange_app/src/screens/user_profile_reviews_screen/widgets/reviews_widget.dart';
-import 'package:solution_challange_app/src/services/reviews_service.dart';
+import 'package:solution_challange_app/src/screens/business_profile_menu_screen/widgets/menu_list_view_widget.dart';
+import 'package:solution_challange_app/src/services/menu_service.dart';
 import 'package:solution_challange_app/src/services/storage_service.dart';
 
-class UserProfileReviewsScreen extends StatelessWidget {
-  const UserProfileReviewsScreen({super.key});
+class BusinessProfileMenuScreenOLD extends StatelessWidget {
+  const BusinessProfileMenuScreenOLD({super.key});
 
   @override
   Widget build(BuildContext context) {
-    String userId = "";
+    return const Scaffold(
+      body: Center(
+        child: Text("Menu Screen"),
+      ),
+    );
+  }
+}
+
+class BusinessProfileMenuScreen extends StatelessWidget {
+  const BusinessProfileMenuScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    String businessId = "";
 
     // Using FutureBuilder to handle asynchronous operation
     return FutureBuilder(
@@ -18,15 +31,21 @@ class UserProfileReviewsScreen extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           // Data has been fetched successfully
-          userId = snapshot.data!;
+          businessId = snapshot.data!;
 
           // Now, fetch reviews using the user id
-          final reviewsFuture =
-              ReviewsService(baseUrl: BASE_URL).getReviewsByUserId(userId);
+          final menusFuture =
+              MenuService(baseUrl: BASE_URL).getMenusByBusinessId(businessId);
 
           return Scaffold(
+            floatingActionButton: FloatingActionButton(
+              child: const Icon(Icons.add),
+              onPressed: () {
+                Navigator.pushNamed(context, "/business-profile-add-menu");
+              },
+            ),
             body: Center(
-              child: ReviewListViewWidget(reviewsFuture: reviewsFuture),
+              child: MenuListViewWidget(menusFuture: menusFuture),
             ),
           );
         } else if (snapshot.hasError) {

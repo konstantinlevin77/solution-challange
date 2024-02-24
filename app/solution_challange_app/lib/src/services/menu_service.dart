@@ -26,4 +26,24 @@ class MenuService {
       return false;
     }
   }
+
+  Future<List<Menu>> getMenusByBusinessId(String businessId) async {
+    String jwtToken = await SecureStorageService().readSecureData("token");
+
+    final response = await http.get(
+      Uri.parse("$baseUrl/protected/menus/getAllByBusinessId/$businessId"),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $jwtToken"
+      },
+    );
+
+    if (response.statusCode == 200) {
+      List<dynamic> jsonList = jsonDecode(response.body);
+      List<Menu> menuList = jsonList.map((e) => Menu.fromJson(e)).toList();
+      return menuList;
+    } else {
+      throw Exception("Failed to find menus with given business id");
+    }
+  }
 }

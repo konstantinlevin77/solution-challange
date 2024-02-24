@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:solution_challange_app/src/constants.dart';
 import 'package:solution_challange_app/src/screens/business_login_screen/business_login_screen.dart';
+import 'package:solution_challange_app/src/screens/business_profile_add_menu_screen/business_profile_add_menu_screen.dart';
+import 'package:solution_challange_app/src/screens/business_profile_menu_screen/business_profile_menu_screen.dart';
 import 'package:solution_challange_app/src/screens/business_signup_screen/business_signup_screen.dart';
 import 'package:solution_challange_app/src/screens/home_screen/home_screen.dart';
 import 'package:solution_challange_app/src/screens/user_login_screen/user_login_screen.dart';
@@ -28,7 +30,9 @@ class MainApp extends StatelessWidget {
         "/user-signup":(context) => const UserSignupScreen(),
         "/user-profile-edit":(context) => UserProfileEditScreen(),
         "/user-profile-reviews":(context) => const UserProfileReviewsScreen(),
-        "/business-signup":(context) => const BusinessSignupScreen()
+        "/business-signup":(context) => const BusinessSignupScreen(),
+        "/business-profile-menu":(context) => const BusinessProfileMenuScreen(),
+        "/business-profile-add-menu":(context) => const BusinessProfileAddMenuScreen(),
       },
       theme: ThemeData(
         primaryColor: TEXT_FIELD_COLOR,
