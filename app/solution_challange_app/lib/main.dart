@@ -4,6 +4,9 @@ import 'package:solution_challange_app/src/screens/business_login_screen/busines
 import 'package:solution_challange_app/src/screens/business_profile_add_menu_screen/business_profile_add_menu_screen.dart';
 import 'package:solution_challange_app/src/screens/business_profile_menu_screen/business_profile_menu_screen.dart';
 import 'package:solution_challange_app/src/screens/business_signup_screen/business_signup_screen.dart';
+import 'package:solution_challange_app/src/screens/display_restaurant_screen/add_review_screen.dart';
+import 'package:solution_challange_app/src/screens/display_restaurant_screen/display_restaurant_screen.dart';
+import 'package:solution_challange_app/src/screens/display_restaurant_screen/see_menus_screen.dart';
 import 'package:solution_challange_app/src/screens/home_screen/home_screen.dart';
 import 'package:solution_challange_app/src/screens/user_login_screen/user_login_screen.dart';
 import 'package:solution_challange_app/src/screens/user_profile_edit_screen/user_profile_edit_screen.dart';
@@ -33,6 +36,9 @@ class MainApp extends StatelessWidget {
         "/business-signup":(context) => const BusinessSignupScreen(),
         "/business-profile-menu":(context) => const BusinessProfileMenuScreen(),
         "/business-profile-add-menu":(context) => const BusinessProfileAddMenuScreen(),
+        "/display-restaurant":(context) => const DisplayRestaurantScreen(),
+        "/see-menus":(context) => const SeeMenusScreen(),
+        "/add-review":(context) => const AddReviewScreen()
       },
       theme: ThemeData(
         primaryColor: TEXT_FIELD_COLOR,

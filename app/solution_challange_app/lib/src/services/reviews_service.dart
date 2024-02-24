@@ -9,6 +9,48 @@ class ReviewsService {
 
   ReviewsService({required this.baseUrl});
 
+  Future<List<Review>> getReviewsByMenuId(String menuId) async {
+    String jwtToken = await SecureStorageService().readSecureData("token");
+
+    final response = await http.get(
+        Uri.parse("$baseUrl/protected/userReviews/getByMenuId/$menuId"),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $jwtToken"
+        });
+
+    if (response.statusCode == 200) {
+      List<dynamic> jsonList = jsonDecode(response.body);
+      List<Review> reviewList =
+          jsonList.map((e) => Review.fromJson(e)).toList();
+
+      return reviewList;
+    } else {
+      throw Exception(
+          "Something went wrong while getting reviews with menu id.");
+    }
+  }
+
+  Future<bool> addReview(Review review) async {
+    String jwtToken = await SecureStorageService().readSecureData("token");
+
+    String reviewJSON = jsonEncode(review.toJson());
+
+    final response = await http.post(
+        Uri.parse("$baseUrl/protected/userReviews/add"),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $jwtToken"
+        },
+        body: reviewJSON);
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   Future<Review> getReviewById(String id) async {
     String jwtToken = await SecureStorageService().readSecureData("token");
 

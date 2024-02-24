@@ -31,6 +31,29 @@ class BusinessAccountService {
     }
   }
 
+  Future<List<BusinessAccount>> getAllBusinessAccounts() async {
+    String jwtToken = await SecureStorageService().readSecureData("token");
+
+    final response = await http.get(
+        Uri.parse("$baseUrl/protected/businessAccounts/getAll"),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $jwtToken"
+        });
+
+    if (response.statusCode == 200) {
+      List<dynamic> jsonList = jsonDecode(response.body);
+      List<BusinessAccount> baList =
+          jsonList.map((e) => BusinessAccount.fromJson(e)).toList();
+
+      return baList;
+    } else {
+      print(response.statusCode);
+      print(response.body);
+      throw Exception("Something went wrong while getting users.");
+    }
+  }
+
   Future<bool> loginBusinessAccount(String username, String password) async {
     final Map<String, String> credentials = {
       "username": username,

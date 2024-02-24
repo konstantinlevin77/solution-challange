@@ -16,6 +16,7 @@ func NewRoutes() *chi.Mux {
 
 		r.Get("/users/getById/{id}", handlers.GetUserByIdHandler)
 		r.Get("/businessAccounts/getById/{id}", handlers.GetBusinessAccountByIdHandler)
+		r.Get("/businessAccounts/getAll", handlers.GetAllBusinessAccountsHandler)
 		r.Get("/menus/getById/{id}", handlers.GetMenuByIdHandler)
 		r.Get("/menus/getAllByBusinessId/{id}", handlers.GetAllMenusByBusinessIdHandler)
 		r.Get("/menus/getGlutenFreeByBusinessId/{id}", handlers.GetGlutenFreeMenusByBusinessIdHandler)

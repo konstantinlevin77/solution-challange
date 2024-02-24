@@ -4,19 +4,6 @@ import 'package:solution_challange_app/src/screens/business_profile_menu_screen/
 import 'package:solution_challange_app/src/services/menu_service.dart';
 import 'package:solution_challange_app/src/services/storage_service.dart';
 
-class BusinessProfileMenuScreenOLD extends StatelessWidget {
-  const BusinessProfileMenuScreenOLD({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text("Menu Screen"),
-      ),
-    );
-  }
-}
-
 class BusinessProfileMenuScreen extends StatelessWidget {
   const BusinessProfileMenuScreen({super.key});
 
