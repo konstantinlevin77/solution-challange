@@ -60,7 +60,7 @@ class ProfileScreenWrapper extends StatelessWidget {
             case "user":
               return UserProfileScreen();
             case "business_account":
-              return BusinessProfileScreen();
+              return BusinessAccountProfileScreen();
             default:
               return const Center(child: Text("Something went wrong."));
           }
