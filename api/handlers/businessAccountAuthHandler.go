@@ -79,7 +79,7 @@ func BusinessAccountLoginHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Generate a JWT token
-	token, err := helpers.GenerateToken("user", b.ID)
+	token, err := helpers.GenerateToken("business_account", b.ID)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Println(err)
