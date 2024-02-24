@@ -7,6 +7,7 @@ import 'package:solution_challange_app/src/screens/business_signup_screen/busine
 import 'package:solution_challange_app/src/screens/display_restaurant_screen/add_review_screen.dart';
 import 'package:solution_challange_app/src/screens/display_restaurant_screen/display_restaurant_screen.dart';
 import 'package:solution_challange_app/src/screens/display_restaurant_screen/see_menus_screen.dart';
+import 'package:solution_challange_app/src/screens/display_restaurant_screen/see_reviews_screen.dart';
 import 'package:solution_challange_app/src/screens/home_screen/home_screen.dart';
 import 'package:solution_challange_app/src/screens/user_login_screen/user_login_screen.dart';
 import 'package:solution_challange_app/src/screens/user_profile_edit_screen/user_profile_edit_screen.dart';
@@ -38,7 +39,8 @@ class MainApp extends StatelessWidget {
         "/business-profile-add-menu":(context) => const BusinessProfileAddMenuScreen(),
         "/display-restaurant":(context) => const DisplayRestaurantScreen(),
         "/see-menus":(context) => const SeeMenusScreen(),
-        "/add-review":(context) => const AddReviewScreen()
+        "/add-review":(context) => const AddReviewScreen(),
+        "/see-reviews":(context) => const SeeReviewsScreen()
       },
       theme: ThemeData(
         primaryColor: TEXT_FIELD_COLOR,

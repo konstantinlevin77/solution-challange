@@ -93,7 +93,10 @@ class MenuListTileWidget extends StatelessWidget {
                       ? Row(
                           children: [
                             ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.pushNamed(context, "/see-reviews",
+                                    arguments: menu);
+                              },
                               child: const Text("See Reviews"),
                             ),
                             ElevatedButton(
@@ -106,7 +109,10 @@ class MenuListTileWidget extends StatelessWidget {
                           ],
                         )
                       : ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushNamed(context, "/see-reviews",
+                                    arguments: menu);
+                          },
                           child: const Text("See Reviews"),
                         );
                 }
