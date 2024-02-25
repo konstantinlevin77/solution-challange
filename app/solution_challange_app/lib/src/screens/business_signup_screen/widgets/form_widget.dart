@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:solution_challange_app/src/constants.dart';
 import 'package:solution_challange_app/src/models/business_account.dart';
 import 'package:solution_challange_app/src/services/business_account_service.dart';
+import 'package:solution_challange_app/src/services/image_service.dart';
 
 class BusinessSignupFormWidget extends StatefulWidget {
   const BusinessSignupFormWidget({super.key});
@@ -21,6 +25,8 @@ class _BusinessSignupFormWidgetState extends State<BusinessSignupFormWidget> {
   final bioController = TextEditingController();
   final addressController = TextEditingController();
   final instaProfileLinkController = TextEditingController();
+  final imagePicker = ImagePicker();
+  File? image;
 
   @override
   Widget build(BuildContext context) {
@@ -137,7 +143,18 @@ class _BusinessSignupFormWidgetState extends State<BusinessSignupFormWidget> {
             "Profile Picture:",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          //TODO: Implement profile picture upload right here!!!!!!!
+          ElevatedButton(
+            onPressed: () async {
+              final img =
+                  await imagePicker.pickImage(source: ImageSource.gallery);
+              setState(() {
+                if (img != null) {
+                  image = File(img.path);
+                }
+              });
+            },
+            child: const Text("Pick an image."),
+          ),
           const Text(
             "Instagram Profile Link:",
             style: TextStyle(fontWeight: FontWeight.bold),
@@ -177,8 +194,16 @@ class _BusinessSignupFormWidgetState extends State<BusinessSignupFormWidget> {
                 style:
                     TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
               ),
-              onPressed: () {
+              onPressed: () async {
                 if (_formKey.currentState!.validate()) {
+
+                  String url = "";
+                  if (image != null) {
+                    print("SOMETHING IN THE WAYY");
+                    url = await ImageService().uploadImage(
+                        image!, "solutionchallange-repo_cloudbuild");
+                  }
+
                   locationFromAddress(addressController.text).then((locations) {
                     final businessAccount = BusinessAccount(
                         id: "",
@@ -188,7 +213,7 @@ class _BusinessSignupFormWidgetState extends State<BusinessSignupFormWidget> {
                         name: nameController.text,
                         bio: bioController.text,
                         address: addressController.text,
-                        profilePicturePath: "",
+                        profilePicturePath: url,
                         instaProfileLink: instaProfileLinkController.text,
                         latitude: locations.first.latitude,
                         longitude: locations.first.longitude);
@@ -209,7 +234,6 @@ class _BusinessSignupFormWidgetState extends State<BusinessSignupFormWidget> {
                     });
                   });
 
-                  // TODO: Profile picture path!!
                 }
               },
             ),

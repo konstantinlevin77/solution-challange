@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:solution_challange_app/src/screens/business_profile_screen/business_profile_screen.dart';
 import 'package:solution_challange_app/src/screens/explore_screen/explore_screen.dart';
+import 'package:solution_challange_app/src/screens/map_screen/map_screen.dart';
 import 'package:solution_challange_app/src/screens/user_profile_screen/user_profile_screen.dart';
 import 'package:solution_challange_app/src/services/storage_service.dart';
 
@@ -16,7 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List<Widget> _screens = [
     ExploreScreen(),
-    const Text("Map Page"),
+    const MapScreen(),
     const ProfileScreenWrapper(),
   ];
 

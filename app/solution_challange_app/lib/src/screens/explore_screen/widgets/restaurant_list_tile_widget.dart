@@ -15,9 +15,17 @@ class RestaurantListTileWidget extends StatelessWidget {
               // TODO: This is for image system.
               Container(
                 width: 200,
-                height: 150,
-                padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                color: Colors.grey,
+                height: 200,
+                child: FadeInImage.assetNetwork(
+                  placeholder: 'assets/business_placeholder.png', // Local asset name
+                  image: restaurant.profilePicturePath,
+                  fit: BoxFit
+                      .cover, // This is to make the image fit nicely in the box. You can remove this if not needed.
+                  imageErrorBuilder: (context, error, stackTrace) {
+                    return Image.asset(
+                        'assets/business_placeholder.png'); // Local asset name for error image
+                  },
+                ),
               ),
               Text(
                 restaurant.name,

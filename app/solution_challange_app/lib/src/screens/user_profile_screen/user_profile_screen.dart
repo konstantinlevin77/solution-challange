@@ -67,10 +67,18 @@ class UserProfileScreenTree extends StatelessWidget {
                 ),
               ),
               Container(
-                padding: const EdgeInsets.fromLTRB(0, 10, 0, 40),
-                width: 100,
-                height: 100,
-                child: const Placeholder(),
+                width: 200,
+                height: 200,
+                child: FadeInImage.assetNetwork(
+                  placeholder: 'assets/user_placeholder.png', // Local asset name
+                  image: user.profilePicturePath,
+                  fit: BoxFit
+                      .cover, // This is to make the image fit nicely in the box. You can remove this if not needed.
+                  imageErrorBuilder: (context, error, stackTrace) {
+                    return Image.asset(
+                        'assets/user_placeholder.png'); // Local asset name for error image
+                  },
+                ),
               ),
               Text(
                 user.bio,
@@ -140,6 +148,3 @@ class UserProfileScreen extends StatelessWidget {
   }
 }
 
-
-
-//TODO: There should be tab to get to the reviews, reviews should be shown in a new page.

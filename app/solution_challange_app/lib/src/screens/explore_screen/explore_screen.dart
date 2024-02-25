@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:solution_challange_app/src/screens/articles_screen/articles_screen.dart';
 import 'package:solution_challange_app/src/screens/explore_screen/explore_restaurants.dart';
 
 class ExploreScreen extends StatefulWidget {
@@ -40,16 +41,25 @@ class _ExploreScreenState extends State<ExploreScreen> {
               borderRadius: BorderRadius.circular(20),
               children: [
                 Container(
-                    width: 100, child: const Center(child: Text('Articles'))),
+                    width: 100,
+                    child: const Center(
+                        child: Text(
+                      'Articles',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ))),
                 Container(
                     width: 100,
-                    child: const Center(child: Text('Restaurants'))),
+                    child: const Center(
+                        child: Text(
+                      'Restaurants',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ))),
               ],
             ),
           ),
           const SizedBox(height: 20),
           // Display content based on the selected option
-          isSelected[0] ? ArticleWidget() : const ExploreRestaurantsScreen(),
+          isSelected[0] ? const ArticlesScreen() : const ExploreRestaurantsScreen(),
         ],
       ),
     );

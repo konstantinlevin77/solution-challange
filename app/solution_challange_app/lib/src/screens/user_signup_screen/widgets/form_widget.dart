@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:solution_challange_app/src/constants.dart';
 import 'package:solution_challange_app/src/models/user.dart';
+import 'package:solution_challange_app/src/services/image_service.dart';
 import 'package:solution_challange_app/src/services/user_service.dart';
 
 class UserSignupFormWidget extends StatefulWidget {
@@ -19,9 +23,12 @@ class _UserSignupFormWidgetState extends State<UserSignupFormWidget> {
   final passwordController = TextEditingController();
   final bioController = TextEditingController();
   final instaProfileLinkController = TextEditingController();
+  final imagePicker = ImagePicker();
+  File? image;
 
   @override
   Widget build(BuildContext context) {
+
     return Form(
       key: _formKey,
       child: Column(
@@ -125,7 +132,18 @@ class _UserSignupFormWidgetState extends State<UserSignupFormWidget> {
             "Profile Picture:",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          //TODO: Implement profile picture upload right here!!!!!!!
+          ElevatedButton(
+            onPressed: () async {
+              final img =
+                  await imagePicker.pickImage(source: ImageSource.gallery);
+              setState(() {
+                if (img != null) {
+                  image = File(img.path);
+                }
+              });
+            },
+            child: const Text("Pick an image."),
+          ),
           const Text(
             "Instagram Profile Link:",
             style: TextStyle(fontWeight: FontWeight.bold),
@@ -158,9 +176,16 @@ class _UserSignupFormWidgetState extends State<UserSignupFormWidget> {
                 style:
                     TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
               ),
-              onPressed: () {
+              onPressed: () async {
                 if (_formKey.currentState!.validate()) {
-                  // TODO: For now, leave the image path empty.
+                  String url = '';
+
+                  if (image != null) {
+                    print("SOMETHING IN THE WAYY");
+                    url = await ImageService().uploadImage(
+                        image!, "solutionchallange-repo_cloudbuild");
+                  }
+
                   var u = User(
                     id: "",
                     username: usernameController.text,
@@ -169,7 +194,7 @@ class _UserSignupFormWidgetState extends State<UserSignupFormWidget> {
                     firstName: firstNameController.text,
                     lastName: lastNameController.text,
                     bio: bioController.text,
-                    profilePicturePath: "",
+                    profilePicturePath: url,
                     instaProfileLink: instaProfileLinkController.text,
                   );
                   UserService(baseUrl: BASE_URL).registerUser(u).then((value) {

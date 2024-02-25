@@ -84,7 +84,6 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
                         ),
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            // TODO: Implement onPressed
 
                             SecureStorageService()
                                 .readSecureData("id")

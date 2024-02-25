@@ -22,7 +22,7 @@ class BusinessAccountProfileScreenTree extends StatelessWidget {
     return buildWidgetTree(context, businessAccount);
   }
 
-  Widget buildWidgetTree(BuildContext context, businessAccount) {
+  Widget buildWidgetTree(BuildContext context, BusinessAccount businessAccount) {
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(
@@ -46,7 +46,6 @@ class BusinessAccountProfileScreenTree extends StatelessWidget {
                         child: InkWell(
                           child: const Icon(Icons.restaurant_menu),
                           onTap: () {
-                            // TODO: Navigate to the add menu screen.
                             Navigator.pushNamed(
                                 context, "/business-profile-menu");
                           },
@@ -72,10 +71,18 @@ class BusinessAccountProfileScreenTree extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 40),
-                  width: 100,
-                  height: 100,
-                  child: const Placeholder(),
+                  width: 200,
+                  height: 200,
+                  child: FadeInImage.assetNetwork(
+                    placeholder: 'assets/business_placeholder.png', // Local asset name
+                    image: businessAccount.profilePicturePath,
+                    fit: BoxFit
+                        .cover, // This is to make the image fit nicely in the box. You can remove this if not needed.
+                    imageErrorBuilder: (context, error, stackTrace) {
+                      return Image.asset(
+                          'assets/business_placeholder.png'); // Local asset name for error image
+                    },
+                  ),
                 ),
                 Text(
                   businessAccount.address,

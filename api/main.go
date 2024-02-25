@@ -1,7 +1,6 @@
 package main
 
 import (
-	"github.com/joho/godotenv"
 	"github.com/konstantinlevin77/solution-challenge/api/config"
 	"github.com/konstantinlevin77/solution-challenge/api/repository/firestoreRepo"
 	"github.com/konstantinlevin77/solution-challenge/api/routes"
@@ -19,10 +18,11 @@ func main() {
 	}
 
 	config.NewApp(repo)
-	err = godotenv.Load()
+
+	/*err = godotenv.Load()
 	if err != nil {
 		log.Fatalln(err.Error())
-	}
+	}*/
 
 	mux := routes.NewRoutes()
 

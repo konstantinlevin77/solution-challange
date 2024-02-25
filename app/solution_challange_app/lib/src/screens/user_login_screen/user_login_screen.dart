@@ -15,13 +15,10 @@ class UserLoginScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            margin: const EdgeInsets.all(20),
-            height: 200,
-            width: 200,
-            child: const Placeholder(
-              color: Colors.blueGrey,
-            ),
-          ),
+              width: 300,
+              height: 300,
+              padding: const EdgeInsets.all(30),
+              child: const Image(image: AssetImage("assets/logo.jpeg"),fit: BoxFit.cover)),
           const LoginFormWidget(),
           Container(
             padding: const EdgeInsets.fromLTRB(20, 60, 20, 5),
