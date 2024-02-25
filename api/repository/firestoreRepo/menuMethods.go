@@ -118,8 +118,6 @@ func (fr *FirestoreRepository) UpdateMenuById(id string, updatedMenu models.Menu
 		{Path: "ingredients", Value: updatedMenu.Ingredients},
 		{Path: "price", Value: updatedMenu.Price},
 		{Path: "example_image_path", Value: updatedMenu.ExampleImagePath},
-		{Path: "avg_stars", Value: updatedMenu.AvgStars},
-		{Path: "num_reviews", Value: updatedMenu.NumReviews},
 		{Path: "is_gluten_free", Value: updatedMenu.IsGlutenFree},
 		{Path: "created_at", Value: updatedMenu.CreatedAt},
 		{Path: "updated_at", Value: time.Now()},

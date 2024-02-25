@@ -92,7 +92,8 @@ class UserService {
 
     if (response.statusCode == 201) {
       return true;
-    } else {
+    } 
+     else {
       print(response.body);
       print(response.statusCode);
       throw Exception("Something wrong happened!");

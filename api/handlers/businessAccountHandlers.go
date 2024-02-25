@@ -32,6 +32,23 @@ func GetBusinessAccountByIdHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func GetAllBusinessAccountsHandler(w http.ResponseWriter, r *http.Request) {
+	businessAccounts, err := config.App.Repository.GetAllBusinessAccounts()
+	if err != nil {
+		w.WriteHeader(http.StatusNotFound)
+		_, _ = w.Write(helpers.NewResultJSON(http.StatusNotFound, err.Error()))
+		return
+	}
+	basJSON, err := json.MarshalIndent(businessAccounts, "", "  ")
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		_, _ = w.Write(helpers.NewResultJSON(http.StatusBadRequest, err.Error()))
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	_, _ = w.Write(basJSON)
+}
+
 func DeleteBusinessAccountByIdHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")

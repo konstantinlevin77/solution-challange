@@ -9,6 +9,7 @@ type BusinessAccount struct {
 	Password           string    `json:"password" firestore:"password,omitempty"`
 	Name               string    `json:"name" firestore:"name,omitempty"`
 	Bio                string    `json:"bio" firestore:"bio,omitempty"`
+	Address            string    `json:"address" firestore:"address,omitempty"`
 	ProfilePicturePath string    `json:"profile_picture_path" firestore:"profile_picture_path,omitempty"`
 	InstaProfileLink   string    `json:"insta_profile_link" firestore:"insta_profile_link,omitempty"`
 	Latitude           float64   `json:"latitude" firestore:"latitude,omitempty"`

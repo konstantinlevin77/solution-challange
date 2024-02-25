@@ -152,7 +152,6 @@ class _UserProfileEditWidgetState extends State<UserProfileEditWidget> {
               ),
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  // TODO: For now, leave the image path empty.
                   widget.user.username = usernameController.text;
                   widget.user.firstName = firstNameController.text;
                   widget.user.lastName = lastNameController.text;

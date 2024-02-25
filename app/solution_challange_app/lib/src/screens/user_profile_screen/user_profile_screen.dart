@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:solution_challange_app/src/constants.dart';
 import 'package:solution_challange_app/src/dataLoaders/user_data_loader.dart';
 import 'package:solution_challange_app/src/models/user.dart';
+import 'package:solution_challange_app/src/services/cache_service.dart';
+import 'package:solution_challange_app/src/services/storage_service.dart';
 import 'package:solution_challange_app/src/services/user_service.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -53,6 +55,9 @@ class UserProfileScreenTree extends StatelessWidget {
                         child: const Icon(Icons.logout),
                         onTap: () {
                           UserService(baseUrl: BASE_URL).logoutUser();
+                          CacheService(
+                                  secureStorageService: SecureStorageService())
+                              .clearUserCache();
                           Navigator.pushReplacementNamed(
                               context, "/user-login");
                         },
@@ -62,10 +67,18 @@ class UserProfileScreenTree extends StatelessWidget {
                 ),
               ),
               Container(
-                padding: const EdgeInsets.fromLTRB(0, 10, 0, 40),
-                width: 100,
-                height: 100,
-                child: const Placeholder(),
+                width: 200,
+                height: 200,
+                child: FadeInImage.assetNetwork(
+                  placeholder: 'assets/user_placeholder.png', // Local asset name
+                  image: user.profilePicturePath,
+                  fit: BoxFit
+                      .cover, // This is to make the image fit nicely in the box. You can remove this if not needed.
+                  imageErrorBuilder: (context, error, stackTrace) {
+                    return Image.asset(
+                        'assets/user_placeholder.png'); // Local asset name for error image
+                  },
+                ),
               ),
               Text(
                 user.bio,
@@ -94,7 +107,9 @@ class UserProfileScreenTree extends StatelessWidget {
                 ),
               ),
               ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, "/user-profile-reviews");
+                  },
                   child: const Text(
                     "User Reviews",
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -133,6 +148,3 @@ class UserProfileScreen extends StatelessWidget {
   }
 }
 
-
-
-//TODO: There should be tab to get to the reviews, reviews should be shown in a new page.

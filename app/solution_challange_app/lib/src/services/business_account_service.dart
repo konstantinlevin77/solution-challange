@@ -31,6 +31,29 @@ class BusinessAccountService {
     }
   }
 
+  Future<List<BusinessAccount>> getAllBusinessAccounts() async {
+    String jwtToken = await SecureStorageService().readSecureData("token");
+
+    final response = await http.get(
+        Uri.parse("$baseUrl/protected/businessAccounts/getAll"),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $jwtToken"
+        });
+
+    if (response.statusCode == 200) {
+      List<dynamic> jsonList = jsonDecode(response.body);
+      List<BusinessAccount> baList =
+          jsonList.map((e) => BusinessAccount.fromJson(e)).toList();
+
+      return baList;
+    } else {
+      print(response.statusCode);
+      print(response.body);
+      throw Exception("Something went wrong while getting users.");
+    }
+  }
+
   Future<bool> loginBusinessAccount(String username, String password) async {
     final Map<String, String> credentials = {
       "username": username,
@@ -43,7 +66,6 @@ class BusinessAccountService {
         body: credentialsJSON);
 
     if (response.statusCode == 200) {
-
       String id;
       String userType;
       String jwtToken = jsonDecode(response.body)["token"];
@@ -65,6 +87,19 @@ class BusinessAccountService {
     SecureStorageService().deleteSecureData("token");
     SecureStorageService().deleteSecureData("id");
     SecureStorageService().deleteSecureData("user_type");
+  }
 
+  Future<bool> registerBusinessAccount(BusinessAccount businessAccount) async {
+    final businessAccountJSON = jsonEncode(businessAccount.toJson());
+    final response = await http.post(
+        Uri.parse("$baseUrl/auth/registerBusinessAccount"),
+        body: businessAccountJSON);
+    if (response.statusCode == 201) {
+      return true;
+    } else {
+      print(response.body);
+      print(response.statusCode);
+      return false;
+    }
   }
 }

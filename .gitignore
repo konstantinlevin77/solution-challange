@@ -1,1 +1,5 @@
 .DS_Store
+AndroidManifest.xml
+app/solution_challange_app/android/app/src/main/AndroidManifest.xml
+app/solution_challange_app/assets/storage-credentials.json
+

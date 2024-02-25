@@ -13,27 +13,29 @@ class BusinessAccountLoginScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            margin: const EdgeInsets.all(20),
-            height: 200,
-            width: 200,
-            child: const Placeholder(
-              color: Colors.blueGrey,
-            ),
-          ),
+              width: 300,
+              height: 300,
+              padding: const EdgeInsets.all(30),
+              child: const Image(image: AssetImage("assets/logo.jpeg"),fit: BoxFit.cover,)),
           const BusinessLoginFormWidget(),
           Container(
             padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-            child: const Row(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
+                const Text(
                   "Need a business account? ",
-                  style: TextStyle(fontWeight: FontWeight.w700,fontSize: 18),
+                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
                 ),
-                Text(
-                  "SIGN UP",
-                  style: TextStyle(fontWeight: FontWeight.w900,fontSize: 18),
-                )
+                InkWell(
+                  child: const Text(
+                    "SIGN UP",
+                    style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18),
+                  ),
+                  onTap: () {
+                    Navigator.pushNamed(context, "/business-signup");
+                  },
+                ),
               ],
             ),
           ),
